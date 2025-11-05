@@ -55,7 +55,7 @@ chroma_db/
 *.sqlite3
 
 # Llama-index (falls du es später nutzt)
-modulhandbuch/persist/
+Dokumente/persist/
 
 # Logs
 *.log

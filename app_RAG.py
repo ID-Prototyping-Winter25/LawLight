@@ -37,7 +37,7 @@ def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
     return chunks
 
 
-def load_documents_to_vectordb(path="./modulhandbuch/"):
+def load_documents_to_vectordb(path="./Dokumente/"):
     """Lädt Dokumente und speichert sie in ChromaDB"""
     
     # Lösche alte Collection und erstelle neue
