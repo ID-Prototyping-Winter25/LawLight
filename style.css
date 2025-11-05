@@ -1,13 +1,13 @@
 
 .message.bot {
-    background: #108bad !important;
+    background: #4dc47f !important;
     font-family: "Lucida Handwriting" !important;
 }
 
 .message.user {
-    background: #ad0ea8 !important;
+    background: #02d17b !important;
 }
 
 #CHATBOT {
-    background: #092a8f !important;
+    background: #feffd5 !important;
 }
