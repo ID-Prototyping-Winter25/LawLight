@@ -9,9 +9,9 @@ from chromadb.utils import embedding_functions
 from theme import CustomTheme
 
 # Konfiguration
-CONTEXT_SIZE = 500  # Anzahl der relevantesten Dokument-Chunks
+CONTEXT_SIZE = 8  # Anzahl der relevantesten Dokument-Chunks
 CHUNK_SIZE = 1000  # Größe der Text-Chunks in Zeichen
-CHUNK_OVERLAP = 200  # Überlappung zwischen Chunks
+CHUNK_OVERLAP = 1000  # Überlappung zwischen Chunks
 
 # OpenAI Client initialisieren
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
