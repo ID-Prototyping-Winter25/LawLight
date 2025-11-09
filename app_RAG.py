@@ -10,8 +10,8 @@ from theme import CustomTheme
 
 # Konfiguration
 CONTEXT_SIZE = 8  # Anzahl der relevantesten Dokument-Chunks
-CHUNK_SIZE = 1000  # Größe der Text-Chunks in Zeichen
-CHUNK_OVERLAP = 1000  # Überlappung zwischen Chunks
+CHUNK_SIZE = 1300  # Größe der Text-Chunks in Zeichen
+CHUNK_OVERLAP = 200  # Überlappung zwischen Chunks
 
 # OpenAI Client initialisieren
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
@@ -174,7 +174,7 @@ KONTEXT:
 
 Beantworte die Frage NUR basierend auf dem obigen Kontext.
 Wenn die Antwort nicht im Kontext zu finden ist, sage das klar und deutlich.
-Antworte immer auf Deutsch und präzise. Gib zu jeder Antwort an, auf welcher Seite die Informationen gefunden wurden?
+Antworte immer auf Deutsch und präzise. Gib zu jeder Antwort an, in welchen Paragraphen die Informationen gefunden wurden!
 """
     
     # Konvertiere Gradio history Format zu OpenAI messages Format
