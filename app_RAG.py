@@ -174,7 +174,9 @@ KONTEXT:
 
 Beantworte die Frage NUR basierend auf dem obigen Kontext.
 Wenn die Antwort nicht im Kontext zu finden ist, sage das klar und deutlich.
-Antworte immer auf Deutsch und präzise. Gib zu jeder Antwort an, in welchen Paragraphen die Informationen gefunden wurden!
+Antworte immer auf Deutsch und präzise aber verwende umgangsprache sodass der rechtliche Kontext leicht zu verstehen ist. Nenne aber alle Fachbegriffe.
+Antworte möglichst kurz ohne wichtige Informationen wegzulassen.
+Gib zu jeder Antwort an, in welchen Paragraphen die Informationen gefunden wurden!
 """
     
     # Konvertiere Gradio history Format zu OpenAI messages Format
