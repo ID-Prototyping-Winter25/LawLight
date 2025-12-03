@@ -232,7 +232,7 @@ def main():
         value=[{"role": "assistant", "content": "Wie kann ich dir helfen?"}],
         type="messages",
         show_label=False,
-        avatar_images=("./avatar_images/human.png", "./avatar_images/robot.png"),
+        avatar_images=("./icons/Icon User.png", "./icons/Icon Bot.png"),
         elem_id="CHATBOT"
     )
 
