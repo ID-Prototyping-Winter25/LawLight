@@ -1,0 +1,30 @@
+
+.message.bot {
+    background: #3d6bcf !important;
+    font-family: "Fira sans",  !important;
+}
+
+.message.user {
+    background: #BAD1FF !important;
+}
+
+/* Make the chat interface area narrower/wider (Chatbot element ID = CHATBOT in your code) */
+#CHATBOT {
+    background: #fcffff !important;
+    max-width: 900px; /* change this value */
+    width: 90%;
+    margin: 1rem auto;
+}
+
+/* Set a max width for the Gradio container and center it */
+.gradio-container {
+  max-width: 1100px; /* change this value */
+  margin: 0 auto;
+}
+
+/* Optionally limit height and make it scrollable if too tall */
+#CHATBOT .chatbot, #CHATBOT .chat-interface {
+  min-height: 600px; /* change this value */
+  max-height: 900px; /* change this value */
+  overflow-y: auto;
+}
