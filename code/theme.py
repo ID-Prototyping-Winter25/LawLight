@@ -6,8 +6,8 @@ class CustomTheme(Base):
         super().__init__()
 
         super().set(
-            body_background_fill="#fcfced",
+            body_background_fill="#fff7e2",
             body_background_fill_dark="black",
-            input_background_fill="#EDF72A",
+            input_background_fill="#FDDC48",
             input_background_fill_dark="#340ba5"
         )
