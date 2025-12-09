@@ -215,14 +215,14 @@ Gib zu jeder Antwort an, in welchen Paragraphen die Informationen gefunden wurde
             yield answer
     
     # Füge Token-Information am Ende hinzu
-    if usage_info:
-        token_info = f"\n\n---\n💡 **Token-Usage:** Input: {usage_info.prompt_tokens} | Output: {usage_info.completion_tokens} | Total: {usage_info.total_tokens}"
-        print(f"\n📊 Token-Usage für diese Anfrage:")
-        print(f"   Input Tokens: {usage_info.prompt_tokens}")
-        print(f"   Output Tokens: {usage_info.completion_tokens}")
-        print(f"   Total Tokens: {usage_info.total_tokens}")
-        answer += token_info
-        yield answer
+   # if usage_info:
+   #     token_info = f"\n\n---\n💡 **Token-Usage:** Input: {usage_info.prompt_tokens} | Output: {usage_info.completion_tokens} | Total: {usage_info.total_tokens}"
+   #     print(f"\n📊 Token-Usage für diese Anfrage:")
+   #     print(f"   Input Tokens: {usage_info.prompt_tokens}")
+   #     print(f"   Output Tokens: {usage_info.completion_tokens}")
+   #     print(f"   Total Tokens: {usage_info.total_tokens}")
+   #     answer += token_info
+   #     yield answer
 
 
 theme = CustomTheme()
@@ -232,7 +232,7 @@ def main():
         value=[{"role": "assistant", "content": "Wie kann ich dir helfen?"}],
         type="messages",
         show_label=False,
-        avatar_images=("./icons/Icon User.png", "./icons/Icon Bot.png"),
+        avatar_images=("./assets/icons/Icons User2.png", "./assets/icons/Icons bot2.png"),
         elem_id="CHATBOT"
     )
 
@@ -241,7 +241,7 @@ def main():
         chatbot=chatbot,
         type="messages",
         theme=theme,
-        css_paths="./style.css"
+        css_paths="./style.css", 
     )
 
     chatinterface.launch(inbrowser=True)
