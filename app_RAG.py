@@ -176,9 +176,11 @@ Beantworte die Frage NUR basierend auf dem obigen Kontext.
 Wenn die Antwort nicht im Kontext zu finden ist, sage das klar und deutlich.
 Antworte immer auf Deutsch und präzise aber verwende umgangsprache sodass der rechtliche Kontext leicht zu verstehen ist. Nenne aber alle Fachbegriffe.
 Antworte möglichst kurz ohne wichtige Informationen wegzulassen.
-Gib zu jeder Antwort an, in welchen Paragraphen die Informationen gefunden wurden!
+Wenn die Antwort nicht im Kontext zu finden ist, sage das klar und deutlich mit folgendem Satz: "Es tut mir leid, aber zu dieser Frage kann ich dir keine passenden Informationen, basierend auf meinen bereitgestellten Dokumenten, geben. Probiere es mit einer anderen Frage." Der unten definierte Disclaimer soll in diesem Fall nicht erneut folgen.
+Gib bei jeder Antwort an, in welchen Paragraphen die Informationen gefunden wurden mittels eines indirekten Zitats (z.B. siehe Paragraph 27)!
+Am Ende jeder Antwort, nur wenn Informationen aus den Dokumenten gefunden wurden, soll folgender Disclaimer folgen: "Bitte beachte, dass meine Antworten nur zur ersten Orientierung dienen und keinesfalls eine professionelle Rechtsberatung ersetzen. Bei Unsicherheit oder komplexeren Fällen wende dich bitte an Polizei, Anwält:innen oder Beratungsstellen."
 """
-    
+
     # Konvertiere Gradio history Format zu OpenAI messages Format
     messages = [{"role": "system", "content": system_prompt}]
     
