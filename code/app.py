@@ -5,6 +5,8 @@ from openai import OpenAI
 import PyPDF2
 import chromadb
 from chromadb.utils import embedding_functions
+import base64
+import mimetypes
 
 from theme import CustomTheme
 
@@ -226,24 +228,43 @@ Gib zu jeder Antwort an, in welchen Paragraphen die Informationen gefunden wurde
 
 
 theme = CustomTheme()
+background_image_path = r"./code/assets/icons/background_image/HistoricLibraryReadingRoom.png"
 
 def main():
+
+    with open(background_image_path, "rb") as img_file:
+        bg_bytes = img_file.read()
+    bg_base64 = base64.b64encode(bg_bytes).decode("utf-8")
+    mime_type, _ = mimetypes.guess_type(background_image_path)
+
+    BACKGROUND_CSS=f"""
+    .gradio-container {{
+        background-image: url("data:{mime_type};base64,{bg_base64}");
+        background-size: cover !important;
+        background-position: center !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }}
+"""
+
     with gr.Blocks(title="LawLight") as bot:
+        gr.HTML(f"<style>{BACKGROUND_CSS}</style>")
         gr.Markdown("# LawLight")
         
-        with gr.Tabs():
-            with gr.TabItem("Chat"):
-                chatbot = gr.Chatbot(
-                    value=[{"role": "assistant", "content": "Wie kann ich dir helfen?"}],
-                    show_label=False,
-                    avatar_images=("./assets/icons/Icons User2.png", "./assets/icons/Icons bot2.png"),
-                    elem_id="CHATBOT"
-                )
+        chatbot = gr.Chatbot(
+            value=[{"role": "assistant", "content": "Hallo User, ich bin LawLight dein Archiv des Rechtswisssens. Wie kann ich dir helfen?"}],
+            show_label=False,
+            avatar_images=(
+                "./code/assets/icons/IconsUser2.png", 
+                "./code/assets/icons/IconsBot2.png"
+                 ),
+            elem_id="CHATBOT"
+        )
 
-                chatinterface = gr.ChatInterface(
-                    fn=response,
-                    chatbot=chatbot
-                )
+        chatinterface = gr.ChatInterface(
+            fn=response,
+            chatbot=chatbot
+        )
         
         bot.launch(inbrowser=True)
 
