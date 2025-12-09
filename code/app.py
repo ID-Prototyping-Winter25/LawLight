@@ -228,23 +228,24 @@ Gib zu jeder Antwort an, in welchen Paragraphen die Informationen gefunden wurde
 theme = CustomTheme()
 
 def main():
-    chatbot = gr.Chatbot(
-        value=[{"role": "assistant", "content": "Wie kann ich dir helfen?"}],
-        type="messages",
-        show_label=False,
-        avatar_images=("./assets/icons/Icons User2.png", "./assets/icons/Icons bot2.png"),
-        elem_id="CHATBOT"
-    )
+    with gr.Blocks(title="LawLight") as bot:
+        gr.Markdown("# LawLight")
+        
+        with gr.Tabs():
+            with gr.TabItem("Chat"):
+                chatbot = gr.Chatbot(
+                    value=[{"role": "assistant", "content": "Wie kann ich dir helfen?"}],
+                    show_label=False,
+                    avatar_images=("./assets/icons/Icons User2.png", "./assets/icons/Icons bot2.png"),
+                    elem_id="CHATBOT"
+                )
 
-    chatinterface = gr.ChatInterface(
-        fn=response,
-        chatbot=chatbot,
-        type="messages",
-        theme=theme,
-        css_paths="./style.css", 
-    )
-
-    chatinterface.launch(inbrowser=True)
+                chatinterface = gr.ChatInterface(
+                    fn=response,
+                    chatbot=chatbot
+                )
+        
+        bot.launch(inbrowser=True)
 
 
 if __name__ == "__main__":
