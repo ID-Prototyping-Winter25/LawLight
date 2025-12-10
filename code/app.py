@@ -247,6 +247,14 @@ def main():
         max-width: 100% !important;
         height: auto !important;
     }}
+
+    .avatar-container{{
+        width: 35px !important;
+        height: 50px !important;
+        border-radius: 0px !important;
+        border: none !important;
+        object-fit: contain !important;
+    }}
 """
 
     with gr.Blocks(title="LawLight") as bot:
