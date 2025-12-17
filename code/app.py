@@ -230,7 +230,7 @@ Am Ende jeder Antwort, nur wenn Informationen aus den Dokumenten gefunden wurden
 
 
 theme = CustomTheme()
-background_image_path = r"./code/assets/icons/background_image/HistoricLibraryReadingRoom.png"
+background_image_path = r"./code/assets/icons/background_image/Zeichenfläche 1.png"
 
 def main():
 
@@ -262,7 +262,7 @@ def main():
         gr.Markdown("# LawLight")
         
         chatbot = gr.Chatbot(
-            value=[{"role": "assistant", "content": "Hallo User, ich bin LawLight dein Archiv des Rechtswisssens. Wie kann ich dir helfen?"}],
+            value=[{"role": "assistant", "content": "Hallo, ich bin LawLight dein Archiv des Rechtswissens. Wie kann ich dir helfen?"}],
             show_label=False,
             avatar_images=(
                 "./code/assets/icons/IconsUser2.png", 
