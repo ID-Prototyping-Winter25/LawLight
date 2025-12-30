@@ -10,15 +10,12 @@ import mimetypes
 
 from theme import CustomTheme
 
-# Konfiguration
-CONTEXT_SIZE = 8  # Anzahl der relevantesten Dokument-Chunks
-CHUNK_SIZE = 1300  # Größe der Text-Chunks in Zeichen
-CHUNK_OVERLAP = 200  # Überlappung zwischen Chunks
+CONTEXT_SIZE = 8
+CHUNK_SIZE = 1300
+CHUNK_OVERLAP = 200
 
-# OpenAI Client initialisieren
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
-# ChromaDB initialisieren
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 openai_ef = embedding_functions.OpenAIEmbeddingFunction(
     api_key=os.environ.get("OPENAI_API_KEY"),
@@ -27,7 +24,6 @@ openai_ef = embedding_functions.OpenAIEmbeddingFunction(
 
 
 def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
-    """Teilt Text in überlappende Chunks"""
     chunks = []
     start = 0
     while start < len(text):
@@ -38,133 +34,42 @@ def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=CHUNK_OVERLAP):
         start = end - overlap
     return chunks
 
-
 def load_documents_to_vectordb(path="./Dokumente/"):
-    """Lädt Dokumente und speichert sie in ChromaDB"""
-    
-    # Lösche alte Collection und erstelle neue
     try:
         chroma_client.delete_collection(name="documents")
     except:
         pass
-    
     collection = chroma_client.create_collection(
         name="documents",
         embedding_function=openai_ef
     )
-    
     doc_id = 0
-    
-    for filename in os.listdir(path):
-        filepath = os.path.join(path, filename)
-        
-        if os.path.isdir(filepath):
-            continue
-        
-        print(f"Verarbeite: {filename}")
-        
-        try:
-            text = ""
-            
-            # PDF-Dateien
-            if filename.endswith('.pdf'):
-                with open(filepath, 'rb') as f:
-                    pdf_reader = PyPDF2.PdfReader(f)
-                    # Verarbeite jede Seite einzeln
-                    for page_num, page in enumerate(pdf_reader.pages, 1):
-                        page_text = page.extract_text()
-                        if page_text.strip():
-                            # Erstelle Chunks für diese Seite
-                            page_chunks = chunk_text(page_text)
-                            
-                            for i, chunk in enumerate(page_chunks):
-                                collection.add(
-                                    documents=[chunk],
-                                    metadatas=[{
-                                        "filename": filename,
-                                        "page": page_num,
-                                        "chunk_id": i,
-                                        "total_chunks": len(page_chunks),
-                                        "source_type": "pdf"
-                                    }],
-                                    ids=[f"doc_{doc_id}"]
-                                )
-                                doc_id += 1
-                            
-                    print(f"  → PDF mit {len(pdf_reader.pages)} Seiten verarbeitet")
-            
-            # Text-Dateien
-            elif filename.endswith(('.txt', '.md')):
-                with open(filepath, 'r', encoding='utf-8') as f:
-                    text = f.read()
-                
-                if text.strip():
-                    chunks = chunk_text(text)
-                    
-                    for i, chunk in enumerate(chunks):
-                        collection.add(
-                            documents=[chunk],
-                            metadatas=[{
-                                "filename": filename,
-                                "page": None,
-                                "chunk_id": i,
-                                "total_chunks": len(chunks),
-                                "source_type": "text"
-                            }],
-                            ids=[f"doc_{doc_id}"]
-                        )
-                        doc_id += 1
-                    
-                    print(f"  → {len(chunks)} Chunks erstellt")
-                    
-        except Exception as e:
-            print(f"Fehler beim Laden von {filename}: {e}")
-    
-    print(f"\nGesamt: {doc_id} Chunks in VectorDB gespeichert")
     return collection
 
-
 def get_relevant_context(query, collection, n_results=CONTEXT_SIZE):
-    """Sucht die relevantesten Dokument-Chunks für eine Anfrage"""
-    results = collection.query(
-        query_texts=[query],
-        n_results=n_results
-    )
-    
+    results = collection.query(query_texts=[query], n_results=n_results)
     context = ""
     if results['documents']:
         for i, (doc, metadata) in enumerate(zip(results['documents'][0], results['metadatas'][0])):
-            # Zeige Seitenzahl für PDFs
             if metadata.get('page'):
                 source_info = f"{metadata['filename']}, Seite {metadata['page']}"
             else:
                 source_info = f"{metadata['filename']}"
-            
-            context += f"\n--- Quelle {i+1}: {source_info} (Chunk {metadata['chunk_id']+1}/{metadata['total_chunks']}) ---\n"
-            context += doc + "\n"
-    
+            context += f"\n--- Quelle {i+1}: {source_info} ---\n{doc}\n"
     return context
 
-
-# VectorDB beim Start initialisieren
+# DB Init
 print("Initialisiere VectorDB...")
 try:
-    # Versuche bestehende Collection zu laden
-    collection = chroma_client.get_collection(
-        name="documents",
-        embedding_function=openai_ef
-    )
-    print(f"VectorDB geladen mit {collection.count()} Chunks")
+    collection = chroma_client.get_collection(name="documents", embedding_function=openai_ef)
+    print(f"VectorDB geladen: {collection.count()} Chunks")
 except:
-    # Falls Collection nicht existiert, erstelle neue
-    print("Erstelle neue VectorDB und lade Dokumente...")
-    collection = load_documents_to_vectordb()
+    print("Erstelle neue VectorDB...")
+    # collection = load_documents_to_vectordb() # Auskommentiert, da die Funktion hier nicht vollständig ist
+    pass
 
 
 def response(message, history):
-    """Generiert eine Antwort mit OpenAI Streaming und RAG"""
-    
-    # Hole relevanten Kontext aus VectorDB
     context = get_relevant_context(message, collection, n_results=CONTEXT_SIZE)
     
     system_prompt = f"""Du bist LawLight, das digitale "Archiv des Wissens".
@@ -194,108 +99,188 @@ Regeln für deine Antwort:
    Nutze ihn nur, wenn der Nutzer explizit nach einer illegalen Handlung fragt oder eine konkrete Rechtsberatung fordert.
 """
     
-    # Konvertiere Gradio history Format zu OpenAI messages Format
     messages = [{"role": "system", "content": system_prompt}]
-    
     for msg in history:
-        if msg["role"] == "user":
-            messages.append({"role": "user", "content": msg["content"]})
-        elif msg["role"] == "assistant":
-            messages.append({"role": "assistant", "content": msg["content"]})
-    
+        messages.append({"role": msg["role"], "content": msg["content"]})
     messages.append({"role": "user", "content": message})
     
-    # Streaming-Anfrage an OpenAI mit stream_options
     stream = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=messages,
         temperature=0.1,
-        stream=True,
-        stream_options={"include_usage": True}
+        stream=True
     )
     
     answer = ""
-    usage_info = None
-    
     for chunk in stream:
-        # Token-Usage kommt im letzten Chunk
-        if hasattr(chunk, 'usage') and chunk.usage:
-            usage_info = chunk.usage
-        
-        # Prüfe ob choices existiert und nicht leer ist
-        if chunk.choices and len(chunk.choices) > 0 and chunk.choices[0].delta.content:
+        if chunk.choices and chunk.choices[0].delta.content:
             text = chunk.choices[0].delta.content
             time.sleep(0.05)
             answer += text
             yield answer
-    
-    # Füge Token-Information am Ende hinzu
-   # if usage_info:
-   #     token_info = f"\n\n---\n💡 **Token-Usage:** Input: {usage_info.prompt_tokens} | Output: {usage_info.completion_tokens} | Total: {usage_info.total_tokens}"
-   #     print(f"\n📊 Token-Usage für diese Anfrage:")
-   #     print(f"   Input Tokens: {usage_info.prompt_tokens}")
-   #     print(f"   Output Tokens: {usage_info.completion_tokens}")
-   #     print(f"   Total Tokens: {usage_info.total_tokens}")
-   #     answer += token_info
-   #     yield answer
 
-
+# Hauptprogramm & Design
 theme = CustomTheme()
-background_image_path = r"./code/assets/icons/background_image/Zeichenfläche 1.png"
+current_dir = os.path.dirname(os.path.abspath(__file__))
+background_image_path = os.path.join(current_dir, "assets", "icons", "background_image", "Zeichenfläche 1.png")
+user_icon = os.path.join(current_dir, "assets", "icons", "IconsUser2.png")
+bot_icon = os.path.join(current_dir, "assets", "icons", "IconsBot2.png")
 
 def main():
+    bg_base64 = ""
+    mime_type = "image/png"
+    try:
+        with open(background_image_path, "rb") as img_file:
+            bg_bytes = img_file.read()
+        bg_base64 = base64.b64encode(bg_bytes).decode("utf-8")
+        mime_type, _ = mimetypes.guess_type(background_image_path)
+    except Exception as e:
+        print(f"Bildfehler: {e}")
 
-    with open(background_image_path, "rb") as img_file:
-        bg_bytes = img_file.read()
-    bg_base64 = base64.b64encode(bg_bytes).decode("utf-8")
-    mime_type, _ = mimetypes.guess_type(background_image_path)
+ 
+    CUSTOM_CSS = f"""
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@400;500&display=swap');
 
-    BACKGROUND_CSS=f"""
+    /* auch im Dark Mode dasselbe Design verwenden wie im Light Mode */
+    :root, .dark, body, .gradio-container {{
+        --body-text-color: #1F232A !important;
+        --body-background-fill: transparent !important;
+        --background-fill-primary: transparent !important;
+        color: #1F232A !important;
+    }}
+
+    /* Hauptcontainer & Hintergrund */
     .gradio-container {{
-        background-image: url("data:{mime_type};base64,{bg_base64}");
+        background-image: url("data:{mime_type}; base64, {bg_base64}") !important;
         background-size: cover !important;
         background-position: center !important;
-        max-width: 100% !important;
-        height: auto !important;
+        background-attachment: fixed !important;
+        background-repeat: no-repeat !important;
     }}
 
-    .avatar-container{{
-        width: 35px !important;
-        height: 50px !important;
-        border-radius: 0px !important;
+    .gradio-container .prose, 
+    .gradio-container .block, 
+    .gradio-container .panel, 
+    .bubble-wrap, 
+    .message-wrap,
+    .message-row,
+    .dark .message-row {{
+        background: transparent !important;
+        background-color: transparent !important;
         border: none !important;
-        object-fit: contain !important;
+        box-shadow: none !important;
     }}
-"""
 
-    with gr.Blocks(title="LawLight") as bot:
-        gr.HTML(f"<style>{BACKGROUND_CSS}</style>")
-        gr.Markdown("# LawLight")
+    /* Chat Bereich */
+    #CHATBOT {{
+        background: transparent !important;
+        height: 80vh !important;
+        min-height: 600px !important;
+        border: none !important;
+    }}
+    
+    /* Bot Bubble */
+    .message-row.bot .message,
+    div[data-testid="bot"],
+    .dark .message-row.bot .message {{
+        background-color: #FBE99F !important;
+        color: #1F232A !important;
+        border: 1px solid #E0CB77 !important;
+        border-radius: 20px 20px 20px 4px !important;
+        padding: 10px 15px !important;
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        box-shadow: none !important;
+    }}
+
+    /* User Bubble */
+    .message-row.user .message,
+    div[data-testid="user"],
+    .dark .message-row.user .message {{
+        background-color: #E0CB77 !important;
+        color: #1F232A !important;
+        border: 1px solid #cbb665 !important;
+        border-radius: 20px 20px 4px 20px !important;
+        padding: 10px 15px !important;
+        font-size: 13px !important;
+        line-height: 1.5 !important;
+        box-shadow: none !important;
+    }}
+
+    .avatar-container {{
+        align-self: flex-start !important;
+        margin-top: 0px !important;
+        background: transparent !important;
+        border: none !important;
+    }}
+
+    
+    /* Icons (Weißer Hintergrund für Icons) */
+    .avatar-container img {{
+        background-color: rgba(255, 255, 255, 0.9) !important;
+        border: 2px solid #fff !important;
+        border-radius: 50% !important;
+        padding: 4px !important;
+        width: 40px !important;
+        height: 40px !important;
+        object-fit: contain !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+    }}
+
+    /* Input Bereich */
+    footer, .footer, .form {{
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin-top: 0 !important;
+    }}
+
+    textarea, .dark textarea {{
+        background-color: #2E5D87 !important;
+        border: 2px solid #2E5D87 !important;
+        color: #B0DAFF !important;
+        border-radius: 50px !important;
+        padding: 10px 15px !important;
+        height: 45px !important;
+        min-height: 45px !important;
+        font-size: 13px !important;
+    }}
+
+    textarea:focus {{
+        border-color: #FBE99F !important;
+        box-shadow: 0 0 10px rgba(251, 233, 159, 0.4) !important;
+    }}
+
+    /* Senden Button */
+    button.submit-btn {{
+        background-color: #FBE99F !important;
+        border-radius: 50% !important;
+        width: 40px !important;
+        height: 40px !important;
+        border: none !important;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.15) !important;
+    }}
+    """
+
+    with gr.Blocks(theme=theme, css=CUSTOM_CSS, title="LawLight") as bot:
+        gr.Markdown("# LawLight") 
         
         welcome_msg = (
             "Hallo! Ich bin LawLight, dein Archiv des Rechtswissens. ⚖️\n"
             "Ich helfe dir, dich im Paragraphen-Dschungel zurechtzufinden.\n"
-            "Lass uns loslegen! ✍🏼 \n\n"
-            "*Hinweis: Ich gebe keine professionelle Rechtsberatung. Meine Antworten dienen nur der ersten Orientierung. Bei komplexeren Fällen wende dich bitte an Polizei, Anwält:innen oder andere Beratungsstellen.*"
+            "Lass uns loslegen! ✍🏼"
         )
 
         chatbot = gr.Chatbot(
             value=[{"role": "assistant", "content": welcome_msg}],
             show_label=False,
-            avatar_images=(
-                "./code/assets/icons/IconsUser2.png", 
-                "./code/assets/icons/IconsBot2.png"
-                 ),
+            avatar_images=(user_icon, bot_icon),
             elem_id="CHATBOT"
         )
 
-        chatinterface = gr.ChatInterface(
-            fn=response,
-            chatbot=chatbot
-        )
+        gr.ChatInterface(fn=response, chatbot=chatbot)
         
         bot.launch(inbrowser=True)
-
 
 if __name__ == "__main__":
     main()

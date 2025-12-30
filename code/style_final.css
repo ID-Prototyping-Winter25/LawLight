@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@400;500&display=swap');
+
+/* Hauptcontainer & Hintergrund */
+.gradio-container {
+    background-color: transparent !important;
+    font-family: 'Inter', sans-serif !important;
+    max-width: 100% !important;
+}
+
+/* Chat Bereich */
+#CHATBOT {
+    background: transparent !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin: 0 auto;
+    border: none !important;
+}
+
+/* Bot Bubble */
+.message-row.bot .message,
+div[data-testid="bot"] {
+    background-color: #FBE99F !important;
+    color: #1F232A !important;
+    border: 1px solid #E0CB77 !important;
+    border-radius: 20px 20px 20px 4px !important;
+    font-size: 16px !important;
+    padding: 15px !important;
+}
+
+/* User Bubble */
+.message-row.user .message,
+div[data-testid="user"] {
+    background-color: #E0CB77 !important;
+    color: #1F232A !important;
+    border: 1px solid #cbb665 !important;
+    border-radius: 20px 20px 4px 20px !important;
+    font-size: 16px !important;
+    padding: 15px !important;
+}
+
+/* Icons (Weißer Hintergrund für Icons) */
+.avatar-container, .avatar-image, .avatar-container img {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-radius: 50% !important;
+    padding: 4px !important;
+    border: 1px solid #fff !important;
+    width: 45px !important;
+    height: 45px !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Input Bereich (Sauber & Blau) */
+footer, .footer, .gradio-container footer {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+}
+
+textarea, .form, label.block {
+    background-color: #2E5D87 !important;
+    border: 2px solid #2E5D87 !important;
+    color: #B0DAFF !important;
+    border-radius: 40px !important;
+    padding: 16px 20px !important;
+    font-size: 16px !important;
+}
+
+textarea:focus {
+    border-color: #FBE99F !important;
+    background-color: #234a6e !important;
+    outline: none !important;
+    box-shadow: 0 0 10px rgba(251, 233, 159, 0.3) !important;
+}
+
+/* Senden Button */
+button.submit-btn {
+    background-color: #FBE99F !important;
+    color: #1F232A !important;
+    border-radius: 50% !important;
+    width: 50px !important;
+    height: 50px !important;
+    border: none !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
