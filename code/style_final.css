@@ -7,6 +7,14 @@
     max-width: 100% !important;
 }
 
+.gradio-container {
+    background-image: url("/file=assets/icons/background_image/Zeichenfläche 1.png");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+
 /* Chat Bereich */
 #CHATBOT {
     background: transparent !important;
@@ -68,10 +76,10 @@ textarea, .form, label.block {
 }
 
 textarea:focus {
-    border-color: #FBE99F !important;
+    border-color: #234a6e!important;
     background-color: #234a6e !important;
     outline: none !important;
-    box-shadow: 0 0 10px rgba(251, 233, 159, 0.3) !important;
+    box-shadow: 0 0 10px #769bbe !important;
 }
 
 /* Senden Button */

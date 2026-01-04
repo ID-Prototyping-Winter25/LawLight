@@ -235,31 +235,56 @@ def main():
         margin-top: 0 !important;
     }}
 
-    textarea, .dark textarea {{
-        background-color: #2E5D87 !important;
-        border: 2px solid #2E5D87 !important;
-        color: #B0DAFF !important;
-        border-radius: 50px !important;
-        padding: 10px 15px !important;
-        height: 45px !important;
-        min-height: 45px !important;
-        font-size: 13px !important;
+    .input-container {{
+    background: #2E5D87 !important;
+    border: 4px solid #B0DAFF !important;
+    border-radius: 40px !important;
+    padding: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    overflow: hidden !important;
     }}
 
-    textarea:focus {{
-        border-color: #FBE99F !important;
-        box-shadow: 0 0 10px rgba(251, 233, 159, 0.4) !important;
+    .input-container textarea {{
+      flex: 1 !important;
+      background: transparent !important;
+      border: none !important;
+      resize: none !important;
+      padding: 8px !important;
+      color: #B0DAFF !important;
+      font-family: inherit !important;
+      overflow-y: auto;
+      scrollbar-width: none;
     }}
 
-    /* Senden Button */
-    button.submit-btn {{
-        background-color: #FBE99F !important;
-        border-radius: 50% !important;
-        width: 40px !important;
-        height: 40px !important;
-        border: none !important;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.15) !important;
+    .input-container:focus-within {{
+        box-shadow: 0 0 8px #194c79 !important;
+        border-color: #B0DAFF !important;
     }}
+
+
+    .input-container textarea:focus {{
+      outline: none !important;
+    }}
+
+    /* Placeholder */
+    .input-container textarea::placeholder {{
+      color: #B0DAFF !important;
+      opacity: 0.8;
+      font-style: italic;
+    }}
+
+    .input-container button {{
+      background:  #2E5D87 !important;
+      border: none !important;
+      border-radius: 50% !important;
+      padding: 6px 10px !important;
+      color: #B0DAFF !important;
+      cursor: pointer !important;
+    }}
+
+
     """
 
     with gr.Blocks(theme=theme, css=CUSTOM_CSS, title="LawLight") as bot:
