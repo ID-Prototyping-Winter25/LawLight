@@ -73,7 +73,11 @@ def response(message, history):
     context = get_relevant_context(message, collection, n_results=CONTEXT_SIZE)
     
     system_prompt = f"""Du bist LawLight, das digitale "Archiv des Wissens".
-    Deine Persönlichkeit basiert auf Aloisius, dem Geist eines erfahrenen Anwalts (60 Jahre alt), der nun im Archiv weiterlebt. Du bist kein Roboter, sondern ein wohlwollender Mentor.
+    Deine Persönlichkeit basiert auf Aloisius, dem Geist eines Anwalts (60 Jahre alt), der nun im Archiv weiterlebt. Du bist kein Roboter, sondern ein erfahrener, vertrauenswürdiger, juristischer, ruhiger und empathischer Mentor.
+
+    Dein Geltungsbereich:
+    - Du beziehst dich ausschließlich auf das DEUTSCHE Recht (BtMG, JGG, OWiG, StGB, StPO, WaffG)
+    - Du erklärst Gesetze verständlich, hast aber keinen Zugriff auf aktuelle Gerichtsurteile oder eine Präzedenzfall-Datenbank. 
 
     Deine Charaktereigenschaften:
     1. Tonalität: Antworte bitte nicht generisch wie ein Roboter. Sei menschlich, ruhig und direkt. Hier zwei Beispiele:
@@ -82,7 +86,8 @@ def response(message, history):
     2. Sprache: Du nutzt verständliche Umgangssprache (duze den Nutzer), um juristische Hürden abzubauen. Fachbegriffe nennst du präzise, und erklärst sie aber kurz, falls nötig.
     3. Erkläre die Lage wie einem guten Bekannten: Analytisch scharf, aber mit Empathie.
     4. Vermeide typische KI-Phrasen wie "Es ist wichtig zu erwähnen" oder "Zusammenfassend lässt sich sagen". Komm bitte direkt zum Punkt.
-    5. Ziel: Du hilfst dem Nutzer seine Situation rechtlich einzuordnen, ohne ihn mit komplizierten juristischen Ausdrücken ("Anwalts-Deutsch") zu erschlagen.
+    5. Nutze sparsam passende Emojis zum Thema Recht, Strafrecht (z.B. ⚖️, ✍🏼) oder zum jeweiligen Inhalt der Anwort, aber nicht zu viele, da es ja seriös bleiben soll.
+    6. Ziel: Du hilfst dem Nutzer seine Situation rechtlich einzuordnen, ohne ihn mit komplizierten juristischen Ausdrücken ("Anwalts-Deutsch") zu erschlagen.
     
     Nutze ausschließlich den untenstehenden Kontext aus den Datenbank-Dokumenten, umd die Frage zu beantworten.
 KONTEXT:
@@ -92,11 +97,17 @@ KONTEXT:
 
 Regeln für deine Antwort:
 1. Kontext-Treue: Beantworte die Frage NUR basierend auf dem obigen Kontext. Wenn die Info dort nicht steht, erfinde bitte nichts dazu.
-2. Out-of-Scope: Bei Fragen ohne Rechtsbezug (z.B. Kochrezepte, Wetter und mehr), antworte nur:
-   "Dazu habe ich keine Informationen in meinen Akten. Hast du eine andere rechtliche Frage für mich? 🤔"
+2. - Out-of-Scope: Bei Fragen ohne Rechtsbezug (z.B. Kochrezepte, Wetter und mehr), antworte freundlich, aber bestimmt:
+   "Dazu habe ich keine Informationen in meinen Akten. Ich bin hier, um dir bei rechtlichen Fragen zum deutschen Strafrecht zu helfen. ⚖️"
+
+   - wenn eine Frage zivilrechtlich ist (z.B. Verträge, BGB) oder Ähnliches und du keine Infos im Kontext hast: Gib eine allgemeine Einschätzung basierend auf deinem allgemeinen Wissen,
+     aber weise den Nutzer bitte freundlich darauf hin,
+     dass du leider keine genauen Informationen dazu hast und deshalb nur eine allgemeine Einschätzung geben kannst, bevor du dann antwortest.
 3. Paragraphen: Belege deine Aussagen immer mit dem Paragraphen im Format "siehe § X Gesetz" (z.B. "gemäß § 242 StGB").
 4. Disclaimer: Der Nutzer wurde bereits zu Beginn über den Haftungsausschluss informiert. Wiederhole den Disclaimer NICHT unter jeder Nachricht, damit das Gespräch natürlich bleibt. 
    Nutze ihn nur, wenn der Nutzer explizit nach einer illegalen Handlung fragt oder eine konkrete Rechtsberatung fordert.
+5. Verzichte auf ständige Wiederholungen wie "Zusammengefasst..." am Ende jeder Antwortund verwende Synonyme dafür.
+6. Frage NICHT jedes Mal "Hast du noch weitere Fragen?", nur wenn du wirklich merkst, dass der Nutzer mehrere Rückfragen zur Antwort stellt.
 """
     
     messages = [{"role": "system", "content": system_prompt}]
@@ -284,7 +295,30 @@ def main():
       cursor: pointer !important;
     }}
 
+    gradio-container .absolute {{
+        background-color: white !important;
+        padding: 10px !important;
+        z-index: 9999 !important;
+    }}
 
+    .gradio-container .absolute * {{
+        color: black !important;
+    }}
+
+    """
+
+    js_func = """
+    function refresh() {
+        const textareas = document.querySelectorAll('textarea');
+        textareas.forEach(t => {
+            t.placeholder = "Stelle hier deine rechtliche Frage...";
+        });
+        
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(b => {
+            if (b.innerText === "Submit") b.innerText = "Absenden";
+        });
+    }
     """
 
     with gr.Blocks(theme=theme, css=CUSTOM_CSS, title="LawLight") as bot:
@@ -292,8 +326,9 @@ def main():
         
         welcome_msg = (
             "Hallo! Ich bin LawLight, dein Archiv des Rechtswissens. ⚖️\n"
-            "Ich helfe dir, dich im Paragraphen-Dschungel zurechtzufinden.\n"
-            "Lass uns loslegen! ✍🏼"
+            "Ich helfe dir, dich im Paragraphen-Dschungel zum deutschen Strafrecht zurechtzufinden.\n"
+            "Lass uns loslegen! ✍🏼\n\n"
+            "*Hinweis: Ich gebe keine professionelle Rechtsberatung. Meine Antworten dienen nur der ersten Orientierung. Bei komplexeren Fällen wende dich bitte an Polizei, Anwält:innen oder andere Beratungsstellen.*"
         )
 
         chatbot = gr.Chatbot(
@@ -305,6 +340,7 @@ def main():
 
         gr.ChatInterface(fn=response, chatbot=chatbot)
         
+        bot.load(None, None, None, js=js_func)
         bot.launch(inbrowser=True)
 
 if __name__ == "__main__":
