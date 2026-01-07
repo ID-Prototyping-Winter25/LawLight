@@ -19,7 +19,7 @@ https://huggingface.co/spaces/Neele2/LawLight
 
 *   **Python 3.10+**
 *   **pip** (Python-Paketmanager)
-*   Ein **OpenAI API Key** (erforderlich für die Nutzung des Chatbots)
+*   Ein **OpenAI API Key** (erforderlich für die lokale Nutzung des Chatbots)
 
 ### Schritte
 
