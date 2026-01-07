@@ -168,19 +168,7 @@ def main():
         background-attachment: fixed !important;
         background-repeat: no-repeat !important;
     }}
-
-    .gradio-container .prose, 
-    .gradio-container .block, 
-    .gradio-container .panel, 
-    .bubble-wrap, 
-    .message-wrap,
-    .message-row,
-    .dark .message-row {{
-        background: transparent !important;
-        background-color: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-    }}
+    
 
     /* Chat Bereich */
     #CHATBOT {{
@@ -198,10 +186,11 @@ def main():
         color: #1F232A !important;
         border: 1px solid #E0CB77 !important;
         border-radius: 20px 20px 20px 4px !important;
-        padding: 10px 15px !important;
+        padding: 12px 18px !important;
         font-size: 13px !important;
         line-height: 1.5 !important;
-        box-shadow: none !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        outline: none !important;
     }}
 
     /* User Bubble */
@@ -212,10 +201,11 @@ def main():
         color: #1F232A !important;
         border: 1px solid #cbb665 !important;
         border-radius: 20px 20px 4px 20px !important;
-        padding: 10px 15px !important;
+        padding: 12px 18px !important;
         font-size: 13px !important;
         line-height: 1.5 !important;
-        box-shadow: none !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        outline: none !important;
     }}
 
     .avatar-container {{
@@ -235,47 +225,51 @@ def main():
         width: 40px !important;
         height: 40px !important;
         object-fit: contain !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
     }}
 
-    /* Input Bereich */
-    footer, .footer, .form {{
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        margin-top: 0 !important;
+    /* Copy & Delete Buttons integrieren */
+    .message-row button, .gradio-container .icon-button {{
+        background-color: rgba(255, 255, 255, 0.4) !important;
+        border: 1px solid rgba(255,255,255,0.6) !important;
+        color: #1F232A !important;
+        border-radius: 6px !important;
+        margin-top: 5px !important;
     }}
 
-    .input-container {{
-    background: #2E5D87 !important;
-    border: 4px solid #B0DAFF !important;
-    border-radius: 40px !important;
-    padding: 6px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    overflow: hidden !important;
+    /* Hover-Effekt */
+    .message-row button:hover, .gradio-container .icon-button:hover {{
+        background-color: white !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
     }}
 
-    .input-container textarea {{
+    .input-container, .form {{
+        background: #2E5D87 !important;
+        border: 2px solid #B0DAFF !important;
+        border-radius: 40px !important;
+        padding: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        
+        box-shadow: 0 0 15px rgba(176, 218, 255, 0.5) !important; 
+        transition: box-shadow 0.3s ease;
+    }}
+    
+    /* Beim Reinklicken: Stärkerer Glow */
+    .form:focus-within {{
+        box-shadow: 0 0 25px rgba(176, 218, 255, 0.9) !important;
+        border-color: white !important;
+    }}
+
+    /* Textfeld */
+    .input-container textarea, .form textarea {{
       flex: 1 !important;
       background: transparent !important;
       border: none !important;
       resize: none !important;
       padding: 8px !important;
       color: #B0DAFF !important;
-      font-family: inherit !important;
-      overflow-y: auto;
-      scrollbar-width: none;
-    }}
-
-    .input-container:focus-within {{
-        box-shadow: 0 0 8px #194c79 !important;
-        border-color: #B0DAFF !important;
-    }}
-
-
-    .input-container textarea:focus {{
       outline: none !important;
     }}
 
@@ -286,6 +280,7 @@ def main():
       font-style: italic;
     }}
 
+    /* Senden Button */
     .input-container button {{
       background:  #2E5D87 !important;
       border: none !important;
@@ -296,9 +291,12 @@ def main():
     }}
 
     gradio-container .absolute {{
-        background-color: white !important;
+        background-color: none !important;
+        border: none !important;
+        border-radius: 10px !important;
         padding: 10px !important;
         z-index: 9999 !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
     }}
 
     .gradio-container .absolute * {{
