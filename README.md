@@ -1,4 +1,4 @@
-# LawLight – Chatbot für deutsches Recht
+# LawLight – Dein Chatbot zum Recht
 
 **LawLight** ist ein Semesterprojekt von drei Studierenden des Studiengangs *Informatik und Design* an der Hochschule München.  
 Unser Ziel: Ein Chatbot, der mithilfe von OpenAI-Technologie Fragen rund um das **deutsche Recht** beantwortet – verständlich für alle, ohne juristisches Fachwissen vorauszusetzen.
