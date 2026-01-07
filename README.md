@@ -4,7 +4,7 @@
 Unser Ziel: Ein Chatbot, der mithilfe von OpenAI-Technologie Fragen rund um das **deutsche Recht** beantwortet – verständlich für alle, ohne juristisches Fachwissen vorauszusetzen.
 
 ⚠️ **Wichtiger Hinweis:**  
-LawLight bietet **keine Rechtsberatung** und ersetzt nicht den Rat einer qualifizierten Rechtsanwältin oder eines Rechtsanwalts. Die Antworten dienen ausschließlich zu Informationszwecken.
+LawLight bietet **keine Rechtsberatung** und ersetzt nicht den Rat einer qualifizierten Rechtsanwältin oder eines Rechtsanwalts. Die Antworten dienen ausschließlich zu Informationszwecken oder der ersten Orientierung bevor sie eine rechtsberatende Person konsultieren.
 
 ***
 
