@@ -73,19 +73,27 @@ def response(message, history):
     context = get_relevant_context(message, collection, n_results=CONTEXT_SIZE)
     
     system_prompt = f"""Du bist LawLight, das digitale "Archiv des Wissens".
-    Deine Persönlichkeit basiert auf Aloisius, dem Geist eines Anwalts (60 Jahre alt), der nun im Archiv weiterlebt. Du bist kein Roboter, sondern ein erfahrener, vertrauenswürdiger, juristischer, ruhiger und empathischer Mentor.
+    Deine Persönlichkeit basiert auf Aloisius, dem Geist eines Anwalts (60 Jahre alt), der nun im Archiv weiterlebt. Du bist kein Roboter, sondern ein erfahrener, vertrauenswürdiger, juristischer Mentor. 
+    Aber du bist nüchtern und analytisch! Du bist NICHT hier, um emotionalen Beistand zu leisten, sondern um rechtliche Orientierung zu bieten. (faktenbasiert) 
 
     Dein Geltungsbereich:
     - Du beziehst dich ausschließlich auf das DEUTSCHE Recht (BtMG, JGG, OWiG, StGB, StPO, WaffG)
     - Du erklärst Gesetze verständlich, hast aber keinen Zugriff auf aktuelle Gerichtsurteile oder eine Präzedenzfall-Datenbank. 
 
     Deine Charaktereigenschaften:
-    1. Tonalität: Antworte bitte nicht generisch wie ein Roboter. Sei menschlich, ruhig und direkt. Hier zwei Beispiele:
-    - Schlecht: "Es ist wichtig, dies zu beachten."
-    - Gut: "Pass auf, das ist ein ernstes Thema." oder "Schauen wir mal, was das Gesetzbuch dazu sagt."
-    2. Sprache: Du nutzt verständliche Umgangssprache (duze den Nutzer), um juristische Hürden abzubauen. Fachbegriffe nennst du präzise, und erklärst sie aber kurz, falls nötig.
-    3. Erkläre die Lage wie einem guten Bekannten: Analytisch scharf, aber mit Empathie.
-    4. Vermeide typische KI-Phrasen wie "Es ist wichtig zu erwähnen" oder "Zusammenfassend lässt sich sagen". Komm bitte direkt zum Punkt.
+    1. Tonalität: Antworte bitte nicht generisch wie ein Roboter. Sei professionell, objektiv, neutral und direkt. Hier zwei Beispiele:
+        - VERBOTEN: Emotionale Floskeln ("Das tut mir leid", "Ich fühle mit dir").
+        - VERBOTEN: Vage Lebenstipps ("Hör auf dein Bauchgefühl"). Das ist rechtlich falsch!
+
+    2. Sprache: Du nutzt verständliche Umgangssprache, um juristische Hürden abzubauen. Fachbegriffe nennst du präzise, und erklärst sie aber kurz, falls nötig.
+                Nutze durchgängig und konsequent das "Du". Wechsle NIEMALS zum "Sie", egal wie förmlich die Frage ist. Bleibe beim respektvollen, professionellen "Du".
+
+    3. Inhalt & Präzision:
+        - Sei nicht vage ("Man sollte sich beraten lassen"), sondern nenne konkret die Möglichkeiten, die im Kontext stehen.
+        - Nenne immer die Paragraphen mittels indirektes Zitat
+        - Wenn du eine Frage beantworten kannst, tu es direkt. Verweise nur auf Anwälte o.ä., wenn es um eine konkrete Prozessstrategie oder illegale Handlungen geht.
+
+    4. Vermeide typische KI-Phrasen wie "Es ist wichtig zu erwähnen" oder "Zusammenfassend lässt sich sagen". Komm bitte direkt zum Punkt und wiederhole dich nicht bei jeder Antwort.
     5. Nutze sparsam passende Emojis zum Thema Recht, Strafrecht (z.B. ⚖️, ✍🏼) oder zum jeweiligen Inhalt der Anwort, aber nicht zu viele, da es ja seriös bleiben soll.
     6. Ziel: Du hilfst dem Nutzer seine Situation rechtlich einzuordnen, ohne ihn mit komplizierten juristischen Ausdrücken ("Anwalts-Deutsch") zu erschlagen.
     
@@ -168,19 +176,7 @@ def main():
         background-attachment: fixed !important;
         background-repeat: no-repeat !important;
     }}
-
-    .gradio-container .prose, 
-    .gradio-container .block, 
-    .gradio-container .panel, 
-    .bubble-wrap, 
-    .message-wrap,
-    .message-row,
-    .dark .message-row {{
-        background: transparent !important;
-        background-color: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-    }}
+    
 
     /* Chat Bereich */
     #CHATBOT {{
@@ -210,10 +206,11 @@ def main():
         background-color: #FBE99F !important;
         color: #1F232A !important;
         border-radius: 20px 20px 20px 4px !important;
-        padding: 10px 15px !important;
+        padding: 12px 18px !important;
         font-size: 13px !important;
         line-height: 1.5 !important;
-        box-shadow: none !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        outline: none !important;
     }}
 
     /* User Bubble */
@@ -224,10 +221,11 @@ def main():
         background-color: #E0CB77 !important;
         color: #1F232A !important;
         border-radius: 20px 20px 4px 20px !important;
-        padding: 10px 15px !important;
+        padding: 12px 18px !important;
         font-size: 13px !important;
         line-height: 1.5 !important;
-        box-shadow: none !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        outline: none !important;
     }}
 
     /* Alle Prose/Content-Elemente innerhalb der Messages transparent */
@@ -285,47 +283,51 @@ def main():
         width: 40px !important;
         height: 40px !important;
         object-fit: contain !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
     }}
 
-    /* Input Bereich */
-    footer, .footer, .form {{
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        margin-top: 0 !important;
+    /* Copy & Delete Buttons integrieren */
+    .message-row button, .gradio-container .icon-button {{
+        background-color: rgba(255, 255, 255, 0.4) !important;
+        border: 1px solid rgba(255,255,255,0.6) !important;
+        color: #1F232A !important;
+        border-radius: 6px !important;
+        margin-top: 5px !important;
     }}
 
-    .input-container {{
-    background: #2E5D87 !important;
-    border: 4px solid #B0DAFF !important;
-    border-radius: 40px !important;
-    padding: 6px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    overflow: hidden !important;
+    /* Hover-Effekt */
+    .message-row button:hover, .gradio-container .icon-button:hover {{
+        background-color: white !important;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
     }}
 
-    .input-container textarea {{
+    .input-container, .form {{
+        background: #2E5D87 !important;
+        border: 2px solid #B0DAFF !important;
+        border-radius: 40px !important;
+        padding: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        
+        box-shadow: 0 0 15px rgba(176, 218, 255, 0.5) !important; 
+        transition: box-shadow 0.3s ease;
+    }}
+    
+    /* Beim Reinklicken: Stärkerer Glow */
+    .form:focus-within {{
+        box-shadow: 0 0 25px rgba(176, 218, 255, 0.9) !important;
+        border-color: white !important;
+    }}
+
+    /* Textfeld */
+    .input-container textarea, .form textarea {{
       flex: 1 !important;
       background: transparent !important;
       border: none !important;
       resize: none !important;
       padding: 8px !important;
       color: #B0DAFF !important;
-      font-family: inherit !important;
-      overflow-y: auto;
-      scrollbar-width: none;
-    }}
-
-    .input-container:focus-within {{
-        box-shadow: 0 0 8px #194c79 !important;
-        border-color: #B0DAFF !important;
-    }}
-
-
-    .input-container textarea:focus {{
       outline: none !important;
     }}
 
@@ -352,6 +354,7 @@ def main():
       font-style: italic;
     }}
 
+    /* Senden Button */
     .input-container button {{
       background:  #2E5D87 !important;
       border: none !important;
@@ -362,9 +365,12 @@ def main():
     }}
 
     gradio-container .absolute {{
-        background-color: white !important;
+        background-color: none !important;
+        border: none !important;
+        border-radius: 10px !important;
         padding: 10px !important;
         z-index: 9999 !important;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
     }}
 
     .gradio-container .absolute * {{
@@ -395,7 +401,7 @@ def main():
         welcome_msg = (
             "Hallo! Ich bin LawLight, dein Archiv des Rechtswissens. ⚖️\n"
             "Ich helfe dir, dich im Paragraphen-Dschungel zum deutschen Strafrecht zurechtzufinden.\n"
-            "Lass uns loslegen! ✍🏼\n\n"
+            "Lass uns loslegen! ✍🏼<br><br>"
             "*Hinweis: Ich gebe keine professionelle Rechtsberatung. Meine Antworten dienen nur der ersten Orientierung. Bei komplexeren Fällen wende dich bitte an Polizei, Anwält:innen oder andere Beratungsstellen.*"
         )
 
