@@ -421,7 +421,7 @@ def main():
         )
 
         chatbot = gr.Chatbot(
-            value=[{"role": "assistant", "content": welcome_msg}],
+            value=[["", welcome_msg]],
             show_label=False,
             avatar_images=(user_icon, bot_icon),
             elem_id="CHATBOT"
