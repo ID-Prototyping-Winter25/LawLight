@@ -329,6 +329,22 @@ def main():
       outline: none !important;
     }}
 
+        /* Entferne den weißen Hintergrund vom Block-Container, nochmal ausprobieren  */ 
+    div.block.svelte-1plpy97.padded,
+    .block.padded,
+    [class*="svelte-"][class*="padded"] {{
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+    }}
+    
+
+    /* Alternative: Alle Block-Elemente transparent außer Messages */
+    .block:not(.message) {{
+        background: transparent !important;
+    }}
+
     /* Placeholder */
     .input-container textarea::placeholder {{
       color: #B0DAFF !important;
