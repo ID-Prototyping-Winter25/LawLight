@@ -209,7 +209,7 @@ def main():
         padding: 12px 18px !important;
         font-size: 13px !important;
         line-height: 1.5 !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        box-shadow: none !important;
         outline: none !important;
     }}
 
@@ -224,7 +224,7 @@ def main():
         padding: 12px 18px !important;
         font-size: 13px !important;
         line-height: 1.5 !important;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+        box-shadow: none !important;
         outline: none !important;
     }}
 
@@ -301,18 +301,7 @@ def main():
         box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
     }}
 
-    .input-container, .form {{
-        background: #2E5D87 !important;
-        border: 2px solid #B0DAFF !important;
-        border-radius: 40px !important;
-        padding: 6px !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        
-        box-shadow: 0 0 15px rgba(176, 218, 255, 0.5) !important; 
-        transition: box-shadow 0.3s ease;
-    }}
+
     
     /* Beim Reinklicken: Stärkerer Glow */
     .form:focus-within {{
@@ -320,49 +309,75 @@ def main():
         border-color: white !important;
     }}
 
-    /* Textfeld */
-    .input-container textarea, .form textarea {{
-      flex: 1 !important;
-      background: transparent !important;
-      border: none !important;
-      resize: none !important;
-      padding: 8px !important;
-      color: #B0DAFF !important;
-      outline: none !important;
+        /* Textfeld */
+        /* Input Bereich - Äußerer Container */
+    footer, .footer, .form {{
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin-top: 0 !important;
     }}
 
-        /* Entferne den weißen Hintergrund vom Block-Container, nochmal ausprobieren  */ 
+    /* Entferne border-radius vom äußeren Block-Container */
     div.block.svelte-1plpy97.padded,
     .block.padded,
-    [class*="svelte-"][class*="padded"] {{
+    footer .block,
+    .form .block {{
         background: transparent !important;
-        background-color: transparent !important;
         border: none !important;
+        border-radius: 0 !important;
         padding: 0 !important;
     }}
-    
 
-    /* Alternative: Alle Block-Elemente transparent außer Messages */
-    .block:not(.message) {{
+    /* Input Container mit blauem Hintergrund und hellblauer Border */
+    .input-container {{
+        background: #2E5D87 !important;
+        border: 4px solid #B0DAFF !important;
+        border-radius: 40px !important;
+        padding: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        overflow: hidden !important;
+    }}
+
+    /* Textfeld */
+    .input-container textarea {{
+        flex: 1 !important;
         background: transparent !important;
+        border: none !important;
+        resize: none !important;
+        padding: 8px !important;
+        color: #B0DAFF !important;
+        font-family: inherit !important;
+        overflow-y: auto;
+        scrollbar-width: none;
+        outline: none !important;
+    }}
+
+    /* Focus-Effekt */
+    .input-container:focus-within {{
+        box-shadow: 0 0 8px #194c79 !important;
+        border-color: #B0DAFF !important;
     }}
 
     /* Placeholder */
     .input-container textarea::placeholder {{
-      color: #B0DAFF !important;
-      opacity: 0.8;
-      font-style: italic;
+        color: #B0DAFF !important;
+        opacity: 0.8;
+        font-style: italic;
     }}
 
     /* Senden Button */
     .input-container button {{
-      background:  #2E5D87 !important;
-      border: none !important;
-      border-radius: 50% !important;
-      padding: 6px 10px !important;
-      color: #B0DAFF !important;
-      cursor: pointer !important;
+        background: #2E5D87 !important;
+        border: none !important;
+        border-radius: 50% !important;
+        padding: 6px 10px !important;
+        color: #B0DAFF !important;
+        cursor: pointer !important;
     }}
+
 
     gradio-container .absolute {{
         background-color: none !important;
