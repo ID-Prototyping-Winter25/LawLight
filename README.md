@@ -9,7 +9,7 @@ LawLight bietet **keine Rechtsberatung** und ersetzt nicht den Rat einer qualifi
 ***
 
 ## Probiere LawLight aus
-https://huggingface.co/spaces/Neele2/LawLight
+[https://huggingface.co/spaces/Neele2/LawLight](https://neele2-lawlight.hf.space)
 
 ***
 
