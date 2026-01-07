@@ -178,13 +178,25 @@ def main():
         border: none !important;
     }}
     
+   /* Entferne alle weißen Hintergründe und Borders in Message-Containern */
+    .message-row, 
+    .message-wrap,
+    .message-row > *,
+    .message-wrap > *,
+    .dark .message-row,
+    .dark .message-wrap {{
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }}
+
     /* Bot Bubble */
-    .message-row.bot .message,
-    div[data-testid="bot"],
-    .dark .message-row.bot .message {{
+    .message-row.bot .message.bot,
+    .message-row:has(.bot) .message,
+    .dark .message-row.bot .message.bot,
+    .dark .message-row:has(.bot) .message {{
         background-color: #FBE99F !important;
         color: #1F232A !important;
-        border: 1px solid #E0CB77 !important;
         border-radius: 20px 20px 20px 4px !important;
         padding: 12px 18px !important;
         font-size: 13px !important;
@@ -194,12 +206,12 @@ def main():
     }}
 
     /* User Bubble */
-    .message-row.user .message,
-    div[data-testid="user"],
-    .dark .message-row.user .message {{
+    .message-row.user .message.user,
+    .message-row:has(.user) .message,
+    .dark .message-row.user .message.user,
+    .dark .message-row:has(.user) .message {{
         background-color: #E0CB77 !important;
         color: #1F232A !important;
-        border: 1px solid #cbb665 !important;
         border-radius: 20px 20px 4px 20px !important;
         padding: 12px 18px !important;
         font-size: 13px !important;
@@ -208,13 +220,51 @@ def main():
         outline: none !important;
     }}
 
+    /* Alle Prose/Content-Elemente innerhalb der Messages transparent */
+    .message .prose,
+    .message > div,
+    .message p,
+    .dark .message .prose,
+    .dark .message > div,
+    .dark .message p {{
+        background: transparent !important;
+        border: none !important;
+        margin: 0 !important;
+    }}
+
+    /* Nuclear Option - Alle Borders im gesamten Chatbot entfernen */
+    #CHATBOT,
+    #CHATBOT *,
+    #CHATBOT .message-row,
+    #CHATBOT .message-wrap,
+    #CHATBOT .message-row > *,
+    #CHATBOT .message-wrap > * {{
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }}
+
+    /* Dann explizit NUR die Message-Bubbles selbst stylen */
+    #CHATBOT .message {{
+        border: none !important;
+    }}
+
+    #CHATBOT .message-row.bot .message {{
+        background-color: #FBE99F !important;
+        border-radius: 20px 20px 20px 4px !important;
+    }}
+
+    #CHATBOT .message-row.user .message {{
+        background-color: #E0CB77 !important;
+        border-radius: 20px 20px 4px 20px !important;
+    }}
+
     .avatar-container {{
         align-self: flex-start !important;
         margin-top: 0px !important;
         background: transparent !important;
         border: none !important;
     }}
-
     
     /* Icons (Weißer Hintergrund für Icons) */
     .avatar-container img {{
@@ -302,6 +352,8 @@ def main():
     .gradio-container .absolute * {{
         color: black !important;
     }}
+
+    
 
     """
 
