@@ -1,94 +1,553 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@400;500&display=swap');
-
+ @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@400;500&display=swap');
+/* auch im Dark Mode dasselbe Design verwenden wie im Light Mode */
+:root, .dark, body, .gradio-container {
+    --body-text-color: #1F232A !important;
+    --body-background-fill: transparent !important;
+    --background-fill-primary: transparent !important;
+    color: #1F232A !important;
+}
 /* Hauptcontainer & Hintergrund */
 .gradio-container {
-    background-color: transparent !important;
-    font-family: 'Inter', sans-serif !important;
-    max-width: 100% !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
 }
-
-.gradio-container {
-    background-image: url("/file=assets/icons/background_image/Zeichenfläche 1.png");
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-}
-
 
 /* Chat Bereich */
 #CHATBOT {
     background: transparent !important;
-    width: 100% !important;
-    max-width: 1200px !important;
-    margin: 0 auto;
+    height: 80vh !important;
+    min-height: 600px !important;
     border: none !important;
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Entferne alle weißen Hintergründe und Borders in Message-Containern */
+.message-row, 
+.message-wrap,
+.message-row > *,
+.message-wrap > *,
+.dark .message-row,
+.dark .message-wrap {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Bot Bubble */
-.message-row.bot .message,
-div[data-testid="bot"] {
-    background-color: #FBE99F !important;
+.message-row.bot .message.bot,
+.message-row:has(.bot) .message,
+.dark .message-row.bot .message.bot,
+.dark .message-row:has(.bot) .message {
+    background: linear-gradient(135deg, 
+        rgba(251, 233, 159, 0.95) 0%, 
+        rgba(251, 233, 159, 0.85) 100%) !important;
     color: #1F232A !important;
-    border: 1px solid #E0CB77 !important;
     border-radius: 20px 20px 20px 4px !important;
-    font-size: 16px !important;
-    padding: 15px !important;
+    padding: 18px 24px !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    box-shadow: 
+        0 8px 32px rgba(251, 233, 159, 0.3),
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    transform: translateZ(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
 }
 
 /* User Bubble */
-.message-row.user .message,
-div[data-testid="user"] {
-    background-color: #E0CB77 !important;
+.message-row.user .message.user,
+.message-row:has(.user) .message,
+.dark .message-row.user .message.user,
+.dark .message-row:has(.user) .message {
+    background: linear-gradient(135deg, 
+        rgba(224, 203, 119, 0.95) 0%, 
+        rgba(224, 203, 119, 0.85) 100%) !important;
     color: #1F232A !important;
-    border: 1px solid #cbb665 !important;
     border-radius: 20px 20px 4px 20px !important;
-    font-size: 16px !important;
-    padding: 15px !important;
+    padding: 18px 24px !important;
+    font-size: 13px !important;
+    line-height: 1.6 !important;
+    box-shadow: 
+        0 8px 32px rgba(224, 203, 119, 0.3),
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
+    backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    transform: translateZ(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Icons (Weißer Hintergrund für Icons) */
-.avatar-container, .avatar-image, .avatar-container img {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    border-radius: 50% !important;
-    padding: 4px !important;
-    border: 1px solid #fff !important;
-    width: 45px !important;
-    height: 45px !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
 
-/* Input Bereich (Sauber & Blau) */
-footer, .footer, .gradio-container footer {
+/* Alle Prose/Content-Elemente innerhalb der Messages transparent */
+.message .prose,
+.message > div,
+.message p,
+.dark .message .prose,
+.dark .message > div,
+.dark .message p {
     background: transparent !important;
-    background-color: transparent !important;
     border: none !important;
+    margin: 0 !important;
+}
+
+@keyframes messagePulse {
+    0% { box-shadow: 0 8px 32px rgba(251, 233, 159, 0.3), 0 4px 16px rgba(0, 0, 0, 0.1); }
+    50% { box-shadow: 0 12px 40px rgba(251, 233, 159, 0.5), 0 6px 20px rgba(0, 0, 0, 0.15); }
+    100% { box-shadow: 0 8px 32px rgba(251, 233, 159, 0.3), 0 4px 16px rgba(0, 0, 0, 0.1); }
+}
+
+/* --- FIX: ULTRA-AGGRESSIVER HINTERGRUND-ENTFERNER (INKL. HOVER) --- */
+/* Wir zwingen JEDES Element innerhalb der Chat-Bubbles auf transparent, auch beim Drübermausen */
+
+/* 1. Basis-Zustand für alles in den Bubbles */
+.message-row .message *,
+div[data-testid="bot"] *,
+div[data-testid="user"] *,
+.prose * {
+    background-color: transparent !important;
+    background: transparent !important;
     box-shadow: none !important;
+    border: none !important;
+}
+
+/* 2. WICHTIG: HOVER und FOKUS Zustände killen! */
+/* Das verhindert, dass es weiß wird, wenn man mit der Maus draufgeht */
+.message-row .message *:hover,
+.message-row .message *:focus,
+.message-row .message *:active,
+div[data-testid="bot"] *:hover,
+div[data-testid="user"] *:hover,
+.prose *:hover,
+.prose *:focus {
+     background-color: transparent !important;
+     background: transparent !important;
+}
+
+/* 3. Sicherstellen, dass keine Ränder entstehen */
+.message-row .message p, 
+.message-row .message div {
+    margin: 0 !important;
     padding: 0 !important;
 }
 
-textarea, .form, label.block {
-    background-color: #2E5D87 !important;
-    border: 2px solid #2E5D87 !important;
-    color: #B0DAFF !important;
-    border-radius: 40px !important;
-    padding: 16px 20px !important;
-    font-size: 16px !important;
+/* Nuclear Option - Alle Borders im gesamten Chatbot entfernen */
+#CHATBOT,
+#CHATBOT *,
+#CHATBOT .message-row,
+#CHATBOT .message-wrap,
+#CHATBOT .message-row > *,
+#CHATBOT .message-wrap > * {
+    border: none !important;
+    outline: none !important;
 }
 
-textarea:focus {
-    border-color: #234a6e!important;
-    background-color: #234a6e !important;
+
+.avatar-container {
+    align-self: flex-start !important;
+    margin-top: 0px !important;
+    background: transparent !important;
+    border: none !important;
+    transform: translateZ(0);
+    transition: transform 0.3s ease;
+}
+
+.avatar-container:hover {
+    transform: translateY(-2px) translateZ(0);
+}
+
+/* Icons (Weißer Hintergrund für Icons) */
+/* --- FIX: ICONS (GRÖSSER, RUND & NICHT VERZERRT) --- */
+.avatar-container img {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #fff !important;
+    border-radius: 50% !important; /* Macht es kreisrund */
+    
+    /* Größe anpassen */
+    width: 55px !important;       
+    height: 55px !important;      
+    min-width: 55px !important;   /* WICHTIG: Verhindert das Zusammenquetschen! */
+    
+    padding: 5px !important;      /* Abstand vom Bild zum weißen Kreisrand */
+    object-fit: contain !important; /* Bild wird nicht abgeschnitten */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    align-self: flex-start !important;
+}
+
+/* Copy & Delete Buttons integrieren */
+.message-row button, .gradio-container .icon-button {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    border: 1px solid rgba(255,255,255,0.6) !important;
+    color: #1F232A !important;
+    border-radius: 6px !important;
+    margin-top: 5px !important;
+}
+
+
+/* Copy & Delete Buttons */
+.message-row button,
+.gradio-container .icon-button {
+background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.5) 0%, 
+        rgba(255, 255, 255, 0.3) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    color: #1F232A !important;
+    border-radius: 8px !important;
+    margin-top: 5px !important;
+    backdrop-filter: blur(8px) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.1),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Hover-Effekt */
+.message-row button:hover, .gradio-container .icon-button:hover {
+background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.8) 0%, 
+        rgba(255, 255, 255, 0.6) 100%) !important;
+    box-shadow: 
+        0 4px 16px rgba(255, 255, 255, 0.5),
+        0 2px 8px rgba(0, 0, 0, 0.15),
+        inset 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+    transform: translateY(-1px);
+}
+
+.message-row button:active,
+.gradio-container .icon-button:active {
+    transform: translateY(0);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.15),
+        inset 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+
+
+/* Textfeld */
+/* Input Bereich - Äußerer Container */
+footer, .footer, .form {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin-top: 0 !important;
+}
+
+/* Entferne border-radius vom äußeren Block-Container */
+div.block.svelte-1plpy97.padded,
+.block.padded,
+footer .block,
+.form .block {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+
+/* Input Container mit blauem Hintergrund und hellblauer Border */
+.input-container {
+    background: linear-gradient(135deg, 
+        rgba(46, 93, 135, 0.95) 0%, 
+        rgba(46, 93, 135, 0.85) 100%) !important;
+    border: 3px solid rgba(176, 218, 255, 0.6) !important;
+    border-radius: 40px !important;
+    padding: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    overflow: hidden !important;
+    box-shadow: 
+        0 10px 40px rgba(46, 93, 135, 0.4),
+        0 5px 20px rgba(0, 0, 0, 0.2),
+        inset 0 2px 4px rgba(176, 218, 255, 0.3),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(12px) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.input-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(176, 218, 255, 0.4) 50%,
+        transparent 70%
+    );
+    border-radius: 40px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: -1;
+}
+
+/* Textfeld */
+.input-container textarea {
+    flex: 1 !important;
+    background: transparent !important;
+    border: none !important;
+    resize: none !important;
+    padding: 10px 12px !important;
+    color: #E8F4FF !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(176, 218, 255, 0.3) transparent;
     outline: none !important;
-    box-shadow: 0 0 10px #769bbe !important;
+    transition: color 0.3s ease;
+}
+
+.input-container textarea::-webkit-scrollbar {
+    width: 6px;
+}
+
+.input-container textarea::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.input-container textarea::-webkit-scrollbar-thumb {
+    background: rgba(176, 218, 255, 0.3);
+    border-radius: 3px;
+}
+
+.input-container textarea::-webkit-scrollbar-thumb:hover {
+    background: rgba(176, 218, 255, 0.5);
+}
+
+
+/* Focus-Effekt */
+.input-container:focus-within {
+    box-shadow: 
+        0 15px 60px rgba(176, 218, 255, 0.6),
+        0 8px 30px rgba(46, 93, 135, 0.5),
+        0 0 80px rgba(176, 218, 255, 0.3),
+        inset 0 2px 4px rgba(176, 218, 255, 0.4),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.3) !important;
+    border-color: rgba(176, 218, 255, 0.9) !important;
+    transform: translateY(-2px);
+}
+
+.input-container:focus-within::before {
+    opacity: 1;
+    animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* Placeholder */
+.input-container textarea::placeholder {
+    color: #B0DAFF !important;
+    opacity: 0.8;
+    font-style: italic;
+    transition: opacity 0.3s ease;
+}
+
+.input-container:focus-within textarea::placeholder {
+    opacity: 0.5;
 }
 
 /* Senden Button */
-button.submit-btn {
-    background-color: #FBE99F !important;
-    color: #1F232A !important;
+.input-container button {
+    background: linear-gradient(135deg, 
+        rgba(46, 93, 135, 0.8) 0%, 
+        rgba(46, 93, 135, 0.6) 100%) !important;
+    border: 2px solid rgba(176, 218, 255, 0.4) !important;
     border-radius: 50% !important;
-    width: 50px !important;
-    height: 50px !important;
+    padding: 10px 12px !important;
+    color: #B0DAFF !important;
+    cursor: pointer !important;
+    box-shadow: 
+        0 4px 16px rgba(176, 218, 255, 0.3),
+        inset 0 1px 2px rgba(176, 218, 255, 0.4) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px) !important;
+}
+
+.input-container button:hover {
+    background: linear-gradient(135deg, 
+        rgba(176, 218, 255, 0.4) 0%, 
+        rgba(176, 218, 255, 0.2) 100%) !important;
+    border-color: rgba(176, 218, 255, 0.8) !important;
+    box-shadow: 
+        0 6px 24px rgba(176, 218, 255, 0.6),
+        0 0 40px rgba(176, 218, 255, 0.3),
+        inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
+    transform: scale(1.05);
+    color: #FFFFFF !important;
+}
+
+.input-container button:active {
+    transform: scale(0.98);
+    box-shadow: 
+        0 2px 8px rgba(176, 218, 255, 0.4),
+        inset 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Absolute positioned elements */
+.gradio-container .absolute {
+    background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(255, 255, 255, 0.85) 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+    z-index: 9999 !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.15),
+        inset 0 1px 2px rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(12px) !important;
+}
+
+.gradio-container .absolute * {
+    color: #1F232A !important;
+}
+
+/* Smooth Scroll Behavior */
+#CHATBOT {
+    scroll-behavior: smooth;
+}
+
+/* Typing Indicator Animation (optional für später) */
+@keyframes typingDots {
+    0%, 20% { opacity: 0.2; }
+    40% { opacity: 1; }
+    100% { opacity: 0.2; }
+}
+
+/* Loading Animation für neue Messages */
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.message-row.bot .message {
+    animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.message-row.user .message {
+    animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --- FINALER OPTIK-FIX: MEHR PLATZ (PADDING) --- */
+
+/* 1. Wir zielen auf BEIDE Bubbles (Bot & User) gleichzeitig */
+.message-row.bot .message, 
+div[data-testid="bot"],
+.message-row.user .message, 
+div[data-testid="user"] {
+    
+    /* HIER IST DIE ÄNDERUNG: Großzügiges Padding */
+    padding: 20px 28px !important; 
+    
+    /* Rahmenbedingungen beibehalten */
+    border-radius: 20px 20px 20px 4px !important; /* Bot-Form standard */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 2. Spezifische Form für User-Bubble wiederherstellen (damit die Ecke rechts ist) */
+.message-row.user .message, 
+div[data-testid="user"] {
+    border-radius: 20px 20px 4px 20px !important;
+}
+
+/* 3. Ein letzter Versuch für den weißen Rahmen (Transparenz auf Absatz-Ebene) */
+.message-row .message p {
+    padding: 0 !important;
+    margin: 0 !important;
+    background-color: transparent !important;
+}
+
+/* --- FIX: PADDING DER BUBBLES --- */
+.message-row.bot .message, 
+.message-row.user .message {
+    padding: 25px 35px !important; /* Hier deutlich erhöht */
+    min-height: 60px !important;
+}
+
+/* Sicherstellen, dass der Text innen nicht den Rand berührt */
+.message-row .message .prose {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* --- FIX: INPUT FELD DESIGN (BLUE GLOW) --- */
+
+/* Den Standard-Hintergrund des Footers entfernen */
+footer, .gradio-container footer {
+    background-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
     border: none !important;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+}
+
+/* Das Textfeld selbst stylen */
+footer textarea, 
+.gradio-container textarea {
+    background: linear-gradient(135deg, 
+        rgba(46, 93, 135, 0.95) 0%, 
+        rgba(46, 93, 135, 0.85) 100%) !important;
+    border: 3px solid rgba(176, 218, 255, 0.6) !important;
+    border-radius: 40px !important;
+    color: #E8F4FF !important;
+    padding: 15px 20px !important; /* Mehr Platz im Textfeld */
+    box-shadow: 
+        0 10px 40px rgba(46, 93, 135, 0.4),
+        inset 0 2px 4px rgba(176, 218, 255, 0.3) !important;
+    backdrop-filter: blur(12px) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Placeholder Farbe (Text "Stelle hier deine Frage...") */
+footer textarea::placeholder {
+    color: #B0DAFF !important;
+    opacity: 0.7;
+}
+
+/* Hover & Focus Effekt (Das Leuchten beim Reinklicken) */
+footer textarea:hover,
+footer textarea:focus {
+    border-color: rgba(176, 218, 255, 0.9) !important;
+    box-shadow: 
+        0 0 20px rgba(176, 218, 255, 0.5),
+        inset 0 0 10px rgba(176, 218, 255, 0.2) !important;
+    transform: translateY(-1px);
+}
+
+/* Den Senden-Button anpassen (falls sichtbar) */
+footer button.submit-button,
+footer button#component-submit {
+    background: rgba(176, 218, 255, 0.2) !important;
+    border-radius: 50% !important;
+    border: 1px solid rgba(176, 218, 255, 0.5) !important;
+    color: white !important;
 }

@@ -119,8 +119,7 @@ Regeln für deine Antwort:
 """
     
     messages = [{"role": "system", "content": system_prompt}]
-    for msg in history:
-        messages.append({"role": msg["role"], "content": msg["content"]})
+    
     messages.append({"role": "user", "content": message})
     
     stream = client.chat.completions.create(
@@ -156,245 +155,32 @@ def main():
     except Exception as e:
         print(f"Bildfehler: {e}")
 
- 
-    CUSTOM_CSS = f"""
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@400;500&display=swap');
+    # CSS laden
+    loaded_css = ""
+    try:
+        css_path = os.path.join(current_dir, "style_final.css")
+        
+        with open(css_path, "r", encoding="utf-8") as f:
+            loaded_css = f.read()
+            print(f"Design geladen aus: {css_path}") # Bestätigung im Terminal
+            print(f"CSS Größe: {len(loaded_css)} Zeichen")
+    except FileNotFoundError:
+        print(f"FEHLER: CSS-Datei nicht gefunden!")
+        print(f"   Gesuchter Pfad: {css_path}")
+        print(f"   Aktuelles Verzeichnis: {current_dir}")
+        print(f"   Verfügbare Dateien: {os.listdir(current_dir)}")
+        loaded_css = ""
 
-    /* auch im Dark Mode dasselbe Design verwenden wie im Light Mode */
-    :root, .dark, body, .gradio-container {{
-        --body-text-color: #1F232A !important;
-        --body-background-fill: transparent !important;
-        --background-fill-primary: transparent !important;
-        color: #1F232A !important;
-    }}
-
-    /* Hauptcontainer & Hintergrund */
+    # Hintergrundbild dynamisch hinzufügen
+    background_css = f"""
     .gradio-container {{
         background-image: url("data:{mime_type}; base64, {bg_base64}") !important;
-        background-size: cover !important;
-        background-position: center !important;
-        background-attachment: fixed !important;
-        background-repeat: no-repeat !important;
     }}
-    
-
-    /* Chat Bereich */
-    #CHATBOT {{
-        background: transparent !important;
-        height: 80vh !important;
-        min-height: 600px !important;
-        border: none !important;
-    }}
-    
-   /* Entferne alle weißen Hintergründe und Borders in Message-Containern */
-    .message-row, 
-    .message-wrap,
-    .message-row > *,
-    .message-wrap > *,
-    .dark .message-row,
-    .dark .message-wrap {{
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-    }}
-
-    /* Bot Bubble */
-    .message-row.bot .message.bot,
-    .message-row:has(.bot) .message,
-    .dark .message-row.bot .message.bot,
-    .dark .message-row:has(.bot) .message {{
-        background-color: #FBE99F !important;
-        color: #1F232A !important;
-        border-radius: 20px 20px 20px 4px !important;
-        padding: 12px 18px !important;
-        font-size: 13px !important;
-        line-height: 1.5 !important;
-        box-shadow: none !important;
-        outline: none !important;
-    }}
-
-    /* User Bubble */
-    .message-row.user .message.user,
-    .message-row:has(.user) .message,
-    .dark .message-row.user .message.user,
-    .dark .message-row:has(.user) .message {{
-        background-color: #E0CB77 !important;
-        color: #1F232A !important;
-        border-radius: 20px 20px 4px 20px !important;
-        padding: 12px 18px !important;
-        font-size: 13px !important;
-        line-height: 1.5 !important;
-        box-shadow: none !important;
-        outline: none !important;
-    }}
-
-    /* Alle Prose/Content-Elemente innerhalb der Messages transparent */
-    .message .prose,
-    .message > div,
-    .message p,
-    .dark .message .prose,
-    .dark .message > div,
-    .dark .message p {{
-        background: transparent !important;
-        border: none !important;
-        margin: 0 !important;
-    }}
-
-    /* Nuclear Option - Alle Borders im gesamten Chatbot entfernen */
-    #CHATBOT,
-    #CHATBOT *,
-    #CHATBOT .message-row,
-    #CHATBOT .message-wrap,
-    #CHATBOT .message-row > *,
-    #CHATBOT .message-wrap > * {{
-        border: none !important;
-        outline: none !important;
-        box-shadow: none !important;
-    }}
-
-    /* Dann explizit NUR die Message-Bubbles selbst stylen */
-    #CHATBOT .message {{
-        border: none !important;
-    }}
-
-    #CHATBOT .message-row.bot .message {{
-        background-color: #FBE99F !important;
-        border-radius: 20px 20px 20px 4px !important;
-    }}
-
-    #CHATBOT .message-row.user .message {{
-        background-color: #E0CB77 !important;
-        border-radius: 20px 20px 4px 20px !important;
-    }}
-
-    .avatar-container {{
-        align-self: flex-start !important;
-        margin-top: 0px !important;
-        background: transparent !important;
-        border: none !important;
-    }}
-    
-    /* Icons (Weißer Hintergrund für Icons) */
-    .avatar-container img {{
-        background-color: rgba(255, 255, 255, 0.9) !important;
-        border: 2px solid #fff !important;
-        border-radius: 50% !important;
-        padding: 4px !important;
-        width: 40px !important;
-        height: 40px !important;
-        object-fit: contain !important;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
-    }}
-
-    /* Copy & Delete Buttons integrieren */
-    .message-row button, .gradio-container .icon-button {{
-        background-color: rgba(255, 255, 255, 0.4) !important;
-        border: 1px solid rgba(255,255,255,0.6) !important;
-        color: #1F232A !important;
-        border-radius: 6px !important;
-        margin-top: 5px !important;
-    }}
-
-    /* Hover-Effekt */
-    .message-row button:hover, .gradio-container .icon-button:hover {{
-        background-color: white !important;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important;
-    }}
-
-
-    
-    /* Beim Reinklicken: Stärkerer Glow */
-    .form:focus-within {{
-        box-shadow: 0 0 25px rgba(176, 218, 255, 0.9) !important;
-        border-color: white !important;
-    }}
-
-        /* Textfeld */
-        /* Input Bereich - Äußerer Container */
-    footer, .footer, .form {{
-        background: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        margin-top: 0 !important;
-    }}
-
-    /* Entferne border-radius vom äußeren Block-Container */
-    div.block.svelte-1plpy97.padded,
-    .block.padded,
-    footer .block,
-    .form .block {{
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-        padding: 0 !important;
-    }}
-
-    /* Input Container mit blauem Hintergrund und hellblauer Border */
-    .input-container {{
-        background: #2E5D87 !important;
-        border: 4px solid #B0DAFF !important;
-        border-radius: 40px !important;
-        padding: 6px !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        overflow: hidden !important;
-    }}
-
-    /* Textfeld */
-    .input-container textarea {{
-        flex: 1 !important;
-        background: transparent !important;
-        border: none !important;
-        resize: none !important;
-        padding: 8px !important;
-        color: #B0DAFF !important;
-        font-family: inherit !important;
-        overflow-y: auto;
-        scrollbar-width: none;
-        outline: none !important;
-    }}
-
-    /* Focus-Effekt */
-    .input-container:focus-within {{
-        box-shadow: 0 0 8px #194c79 !important;
-        border-color: #B0DAFF !important;
-    }}
-
-    /* Placeholder */
-    .input-container textarea::placeholder {{
-        color: #B0DAFF !important;
-        opacity: 0.8;
-        font-style: italic;
-    }}
-
-    /* Senden Button */
-    .input-container button {{
-        background: #2E5D87 !important;
-        border: none !important;
-        border-radius: 50% !important;
-        padding: 6px 10px !important;
-        color: #B0DAFF !important;
-        cursor: pointer !important;
-    }}
-
-
-    gradio-container .absolute {{
-        background-color: none !important;
-        border: none !important;
-        border-radius: 10px !important;
-        padding: 10px !important;
-        z-index: 9999 !important;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2) !important;
-    }}
-
-    .gradio-container .absolute * {{
-        color: black !important;
-    }}
-
-    
-
     """
+    
+    # Zusammenfügen
+    final_css = loaded_css + "\n" + background_css
+    print(f"Finale CSS Größe: {len(final_css)} Zeichen")
 
     js_func = """
     function refresh() {
@@ -410,7 +196,7 @@ def main():
     }
     """
 
-    with gr.Blocks(theme=theme, css=CUSTOM_CSS, title="LawLight") as bot:
+    with gr.Blocks(theme=theme, css=final_css, title="LawLight") as bot:
         gr.Markdown("# LawLight") 
         
         welcome_msg = (
@@ -421,16 +207,23 @@ def main():
         )
 
         chatbot = gr.Chatbot(
-            value=[["", welcome_msg]],
+            value=[[None, welcome_msg]],
             show_label=False,
             avatar_images=(user_icon, bot_icon),
             elem_id="CHATBOT"
         )
 
-        gr.ChatInterface(fn=response, chatbot=chatbot)
+        gr.ChatInterface(
+            fn=response, 
+            chatbot=chatbot,
+            retry_btn=None,
+            undo_btn=None,
+            clear_btn=None,
+            )
         
         bot.load(None, None, None, js=js_func)
         bot.launch(inbrowser=True)
 
 if __name__ == "__main__":
     main()
+
