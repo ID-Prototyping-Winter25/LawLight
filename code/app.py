@@ -63,14 +63,21 @@ print("Initialisiere VectorDB...")
 try:
     collection = chroma_client.get_collection(name="documents", embedding_function=openai_ef)
     print(f"VectorDB geladen: {collection.count()} Chunks")
-except:
-    print("Erstelle neue VectorDB...")
-    # collection = load_documents_to_vectordb() # Auskommentiert, da die Funktion hier nicht vollständig ist
-    pass
+except Exception as e:
+    print("Erstelle neue VectorDB...:", e)
+    try:
+        collection = load_documents_to_vectordb()
+        print("Neue Collection erstellt.")
+    except Exception as e2:
+        print(f"Fehler beim Erstellen der Collection: {e2}")
+        collection = None
 
 
 def response(message, history):
-    context = get_relevant_context(message, collection, n_results=CONTEXT_SIZE)
+    if collection is None:
+        context = ""
+    else:
+        context = get_relevant_context(message, collection, n_results=CONTEXT_SIZE)
     
     system_prompt = f"""Du bist LawLight, das digitale "Archiv des Wissens".
     Deine Persönlichkeit basiert auf Aloisius, dem Geist eines Anwalts (60 Jahre alt), der nun im Archiv weiterlebt. Du bist kein Roboter, sondern ein erfahrener, vertrauenswürdiger, juristischer Mentor. 
@@ -119,8 +126,19 @@ Regeln für deine Antwort:
 """
     
     messages = [{"role": "system", "content": system_prompt}]
-    for msg in history:
-        messages.append({"role": msg["role"], "content": msg["content"]})
+    for item in (history or []):
+        if isinstance(item, dict):
+            messages.append({"role": item.get("role", "user"), "content": item.get("content", "")})
+        elif isinstance(item, (list, tuple)):
+            user_msg = item[0] if len(item) > 0 else ""
+            bot_msg = item[1] if len(item) > 1 else None
+            if user_msg:
+                messages.append({"role": "user", "content": user_msg})
+            if bot_msg:
+                messages.append({"role": "assistant", "content": bot_msg})
+        else:
+            # Fallback: alles andere als User-Text behandeln
+            messages.append({"role": "user", "content": str(item)})
     messages.append({"role": "user", "content": message})
     
     stream = client.chat.completions.create(
