@@ -127,7 +127,8 @@ Regeln für deine Antwort:
     
     messages = [{"role": "system", "content": system_prompt}]
     for msg in history:
-        messages.append({"role": msg["role"], "content": msg["content"]})
+        if isinstance(msg, dict) and "role" in msg and "content" in msg:
+            messages.append({"role": msg["role"], "content": msg["content"]})
     messages.append({"role": "user", "content": message})
     
     stream = client.chat.completions.create(
