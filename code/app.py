@@ -150,8 +150,8 @@ Regeln für deine Antwort:
 theme = CustomTheme()
 current_dir = os.path.dirname(os.path.abspath(__file__))
 background_image_path = os.path.join(current_dir, "assets", "icons", "background_image", "Zeichenfläche 1.png")
-user_icon = os.path.join(current_dir, "assets", "icons", "IconsUser2.png")
-bot_icon = os.path.join(current_dir, "assets", "icons", "IconsBot2.png")
+user_icon = os.path.join(current_dir, "assets", "icons", "Fragezeichen.png")
+bot_icon = os.path.join(current_dir, "assets", "icons", "§.png")
 
 def main():
     bg_base64 = ""

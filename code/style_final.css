@@ -45,19 +45,12 @@
 .message-row:has(.bot) .message,
 .dark .message-row.bot .message.bot,
 .dark .message-row:has(.bot) .message {
-    background: linear-gradient(135deg, 
-        rgba(251, 233, 159, 0.95) 0%, 
-        rgba(251, 233, 159, 0.85) 100%) !important;
+    background: #FBE99F!important;
     color: #1F232A !important;
     border-radius: 20px 20px 20px 4px !important;
     padding: 18px 24px !important;
     font-size: 13px !important;
     line-height: 1.6 !important;
-    box-shadow: 
-        0 8px 32px rgba(251, 233, 159, 0.3),
-        0 4px 16px rgba(0, 0, 0, 0.1),
-        inset 0 1px 2px rgba(255, 255, 255, 0.5),
-        inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
     backdrop-filter: blur(8px) !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     transform: translateZ(0);
@@ -70,19 +63,12 @@
 .message-row:has(.user) .message,
 .dark .message-row.user .message.user,
 .dark .message-row:has(.user) .message {
-    background: linear-gradient(135deg, 
-        rgba(224, 203, 119, 0.95) 0%, 
-        rgba(224, 203, 119, 0.85) 100%) !important;
+    background:#E0CB77 !important;
     color: #1F232A !important;
     border-radius: 20px 20px 4px 20px !important;
     padding: 18px 24px !important;
     font-size: 13px !important;
     line-height: 1.6 !important;
-    box-shadow: 
-        0 8px 32px rgba(224, 203, 119, 0.3),
-        0 4px 16px rgba(0, 0, 0, 0.1),
-        inset 0 1px 2px rgba(255, 255, 255, 0.5),
-        inset 0 -1px 2px rgba(0, 0, 0, 0.1) !important;
     backdrop-filter: blur(8px) !important;
     border: 1px solid rgba(255, 255, 255, 0.3) !important;
     transform: translateZ(0);
@@ -171,15 +157,15 @@ div[data-testid="user"] *:hover,
 /* --- FIX: ICONS (GRÖSSER, RUND & NICHT VERZERRT) --- */
 .avatar-container img {
     background-color: rgba(255, 255, 255, 0.9) !important;
-    border: 2px solid #fff !important;
+    border: 0.5px solid #fff !important;
     border-radius: 50% !important; /* Macht es kreisrund */
     
     /* Größe anpassen */
-    width: 55px !important;       
-    height: 55px !important;      
-    min-width: 55px !important;   /* WICHTIG: Verhindert das Zusammenquetschen! */
+    width: 45px !important;       
+    height: 45px !important;      
+    min-width: 45px !important;   /* WICHTIG: Verhindert das Zusammenquetschen! */
     
-    padding: 5px !important;      /* Abstand vom Bild zum weißen Kreisrand */
+    padding: 2px !important;      /* Abstand vom Bild zum weißen Kreisrand */
     object-fit: contain !important; /* Bild wird nicht abgeschnitten */
     box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
     align-self: flex-start !important;
@@ -213,7 +199,7 @@ background: linear-gradient(135deg,
 }
 
 /* Hover-Effekt */
-.message-row button:hover, .gradio-container .icon-button:hover {
+.gradio-container .icon-button:hover {
 background: linear-gradient(135deg, 
         rgba(255, 255, 255, 0.8) 0%, 
         rgba(255, 255, 255, 0.6) 100%) !important;
@@ -258,40 +244,16 @@ footer .block,
     background: linear-gradient(135deg, 
         rgba(46, 93, 135, 0.95) 0%, 
         rgba(46, 93, 135, 0.85) 100%) !important;
-    border: 3px solid rgba(176, 218, 255, 0.6) !important;
+    border: 3px #B0DAFF!important;
     border-radius: 40px !important;
     padding: 8px !important;
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
     overflow: hidden !important;
-    box-shadow: 
-        0 10px 40px rgba(46, 93, 135, 0.4),
-        0 5px 20px rgba(0, 0, 0, 0.2),
-        inset 0 2px 4px rgba(176, 218, 255, 0.3),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.2) !important;
     backdrop-filter: blur(12px) !important;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-}
-
-.input-container::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(
-        45deg,
-        transparent 30%,
-        rgba(176, 218, 255, 0.4) 50%,
-        transparent 70%
-    );
-    border-radius: 40px;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: -1;
 }
 
 /* Textfeld */
@@ -310,6 +272,7 @@ footer .block,
     outline: none !important;
     transition: color 0.3s ease;
 }
+
 
 .input-container textarea::-webkit-scrollbar {
     width: 6px;
@@ -331,25 +294,15 @@ footer .block,
 
 /* Focus-Effekt */
 .input-container:focus-within {
-    box-shadow: 
-        0 15px 60px rgba(176, 218, 255, 0.6),
-        0 8px 30px rgba(46, 93, 135, 0.5),
-        0 0 80px rgba(176, 218, 255, 0.3),
-        inset 0 2px 4px rgba(176, 218, 255, 0.4),
-        inset 0 -2px 4px rgba(0, 0, 0, 0.3) !important;
-    border-color: rgba(176, 218, 255, 0.9) !important;
+    box-shadow: #FBE99F;
+    border-color: #B0DAFF !important;
     transform: translateY(-2px);
 }
 
-.input-container:focus-within::before {
-    opacity: 1;
-    animation: glowPulse 2s ease-in-out infinite;
-}
 
 /* Placeholder */
 .input-container textarea::placeholder {
     color: #B0DAFF !important;
-    opacity: 0.8;
     font-style: italic;
     transition: opacity 0.3s ease;
 }
@@ -360,33 +313,15 @@ footer .block,
 
 /* Senden Button */
 .input-container button {
-    background: linear-gradient(135deg, 
-        rgba(46, 93, 135, 0.8) 0%, 
-        rgba(46, 93, 135, 0.6) 100%) !important;
-    border: 2px solid rgba(176, 218, 255, 0.4) !important;
+    background: #2E5D87 !important;
     border-radius: 50% !important;
     padding: 10px 12px !important;
     color: #B0DAFF !important;
     cursor: pointer !important;
-    box-shadow: 
-        0 4px 16px rgba(176, 218, 255, 0.3),
-        inset 0 1px 2px rgba(176, 218, 255, 0.4) !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     backdrop-filter: blur(8px) !important;
 }
 
-.input-container button:hover {
-    background: linear-gradient(135deg, 
-        rgba(176, 218, 255, 0.4) 0%, 
-        rgba(176, 218, 255, 0.2) 100%) !important;
-    border-color: rgba(176, 218, 255, 0.8) !important;
-    box-shadow: 
-        0 6px 24px rgba(176, 218, 255, 0.6),
-        0 0 40px rgba(176, 218, 255, 0.3),
-        inset 0 1px 2px rgba(255, 255, 255, 0.4) !important;
-    transform: scale(1.05);
-    color: #FFFFFF !important;
-}
 
 .input-container button:active {
     transform: scale(0.98);
@@ -471,13 +406,12 @@ div[data-testid="user"] {
     /* Rahmenbedingungen beibehalten */
     border-radius: 20px 20px 20px 4px !important; /* Bot-Form standard */
     box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
 }
 
 /* 2. Spezifische Form für User-Bubble wiederherstellen (damit die Ecke rechts ist) */
 .message-row.user .message, 
 div[data-testid="user"] {
-    border-radius: 20px 20px 4px 20px !important;
+    border-radius: 20px 20px 3px 20px !important;
 }
 
 /* 3. Ein letzter Versuch für den weißen Rahmen (Transparenz auf Absatz-Ebene) */
@@ -504,7 +438,7 @@ div[data-testid="user"] {
 
 /* Den Standard-Hintergrund des Footers entfernen */
 footer, .gradio-container footer {
-    background-color: transparent !important;
+    background-color: #1F232A !important;
     background: transparent !important;
     box-shadow: none !important;
     border: none !important;
@@ -513,10 +447,8 @@ footer, .gradio-container footer {
 /* Das Textfeld selbst stylen */
 footer textarea, 
 .gradio-container textarea {
-    background: linear-gradient(135deg, 
-        rgba(46, 93, 135, 0.95) 0%, 
-        rgba(46, 93, 135, 0.85) 100%) !important;
-    border: 3px solid rgba(176, 218, 255, 0.6) !important;
+    background: #2E5D87 !important;
+    border: 3px solid #B0DAFF!important;
     border-radius: 40px !important;
     color: #E8F4FF !important;
     padding: 15px 20px !important; /* Mehr Platz im Textfeld */
@@ -530,11 +462,11 @@ footer textarea,
 /* Placeholder Farbe (Text "Stelle hier deine Frage...") */
 footer textarea::placeholder {
     color: #B0DAFF !important;
+    font-style: italic;
     opacity: 0.7;
 }
 
 /* Hover & Focus Effekt (Das Leuchten beim Reinklicken) */
-footer textarea:hover,
 footer textarea:focus {
     border-color: rgba(176, 218, 255, 0.9) !important;
     box-shadow: 
@@ -550,4 +482,36 @@ footer button#component-submit {
     border-radius: 50% !important;
     border: 1px solid rgba(176, 218, 255, 0.5) !important;
     color: white !important;
+    cursor: pointer;
+}
+
+/*absendefeld*/
+.primary.svelte-cmf5ev {
+    background: #2E5D87;
+    color: #B0DAFF;
+}
+
+/*auch abesndefeld*/
+.lg.svelte-cmf5ev {
+    border-radius: 40px;
+    border: 3px solid #B0DAFF;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+/*stopfeld*/
+.stop.svelte-cmf5ev {   
+    border: 3px solid #B0DAFF;
+    background: #2E5D87;
+    color: #B0DAFF;
+    font-weight: bold;
+    font-size: 13px;
+    border-radius: 40px;
+}
+
+
+/*inputfeld und Absendefeld hintergrund*/
+.svelte-sa48pu {
+    background: #1F233D;
+    gap: 10px; 
 }
