@@ -1,12 +1,16 @@
  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@400;500&display=swap');
-/* auch im Dark Mode dasselbe Design verwenden wie im Light Mode */
-:root, .dark, body, .gradio-container {
+
+/* GLOBALE EINSTELLUNGEN & HINTERGRUND 
+Setzen der Schriftfarbe und Transparenz für den gesamten Body */
+
+ :root, .dark, body, .gradio-container {
     --body-text-color: #1F232A !important;
     --body-background-fill: transparent !important;
     --background-fill-primary: transparent !important;
     color: #1F232A !important;
 }
-/* Hauptcontainer & Hintergrund */
+
+/* Fixiertes Hintergrundbild, damit es beim Scrollen stehen bleibt & Container-Setup */
 .gradio-container {
     background-size: cover !important;
     background-position: center !important;
@@ -14,7 +18,7 @@
     background-repeat: no-repeat !important;
 }
 
-/* Chat Bereich */
+/* CHAT BEREICH & ANIMATION */
 #CHATBOT {
     background: transparent !important;
     height: 80vh !important;
@@ -26,6 +30,17 @@
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+/* Animationen für das Hereinfliegen der Nachrichten */
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 
 /* Entferne alle weißen Hintergründe und Borders in Message-Containern */
@@ -40,7 +55,9 @@
     box-shadow: none !important;
 }
 
-/* Bot Bubble */
+
+/* BUBBLES (NACHRICHTEN) DESIGN 
+Bot Bubble */
 .message-row.bot .message.bot,
 .message-row:has(.bot) .message,
 .dark .message-row.bot .message.bot,
@@ -108,7 +125,7 @@ div[data-testid="user"] *,
     border: none !important;
 }
 
-/* 2. WICHTIG: HOVER und FOKUS Zustände killen! */
+/* WICHTIG: HOVER und FOKUS Zustände entfernen */
 /* Das verhindert, dass es weiß wird, wenn man mit der Maus draufgeht */
 .message-row .message *:hover,
 .message-row .message *:focus,
@@ -140,6 +157,7 @@ div[data-testid="user"] *:hover,
 }
 
 
+/* ICONS */
 .avatar-container {
     align-self: flex-start !important;
     margin-top: 0px !important;
@@ -154,19 +172,18 @@ div[data-testid="user"] *:hover,
 }
 
 /* Icons (Weißer Hintergrund für Icons) */
-/* --- FIX: ICONS (GRÖSSER, RUND & NICHT VERZERRT) --- */
 .avatar-container img {
     background-color: rgba(255, 255, 255, 0.9) !important;
     border: 0.5px solid #fff !important;
-    border-radius: 50% !important; /* Macht es kreisrund */
+    border-radius: 50% !important;
     
     /* Größe anpassen */
     width: 45px !important;       
     height: 45px !important;      
-    min-width: 45px !important;   /* WICHTIG: Verhindert das Zusammenquetschen! */
+    min-width: 45px !important;  
     
-    padding: 2px !important;      /* Abstand vom Bild zum weißen Kreisrand */
-    object-fit: contain !important; /* Bild wird nicht abgeschnitten */
+    padding: 2px !important;      
+    object-fit: contain !important; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
     align-self: flex-start !important;
 }
@@ -181,7 +198,7 @@ div[data-testid="user"] *:hover,
 }
 
 
-/* Copy & Delete Buttons */
+/* Copy & Delete Buttons Styling */
 .message-row button,
 .gradio-container .icon-button {
 background: linear-gradient(135deg, 
@@ -219,7 +236,7 @@ background: linear-gradient(135deg,
 }
 
 
-/* Textfeld */
+/* TEXTFELD & FOOTER */
 /* Input Bereich - Äußerer Container */
 footer, .footer, .form {
     background: transparent !important;
@@ -272,25 +289,6 @@ footer .block,
     outline: none !important;
     transition: color 0.3s ease;
 }
-
-
-.input-container textarea::-webkit-scrollbar {
-    width: 6px;
-}
-
-.input-container textarea::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.input-container textarea::-webkit-scrollbar-thumb {
-    background: rgba(176, 218, 255, 0.3);
-    border-radius: 3px;
-}
-
-.input-container textarea::-webkit-scrollbar-thumb:hover {
-    background: rgba(176, 218, 255, 0.5);
-}
-
 
 /* Focus-Effekt */
 .input-container:focus-within {
@@ -392,48 +390,6 @@ footer .block,
     animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --- FINALER OPTIK-FIX: MEHR PLATZ (PADDING) --- */
-
-/* 1. Wir zielen auf BEIDE Bubbles (Bot & User) gleichzeitig */
-.message-row.bot .message, 
-div[data-testid="bot"],
-.message-row.user .message, 
-div[data-testid="user"] {
-    
-    /* HIER IST DIE ÄNDERUNG: Großzügiges Padding */
-    padding: 20px 28px !important; 
-    
-    /* Rahmenbedingungen beibehalten */
-    border-radius: 20px 20px 20px 4px !important; /* Bot-Form standard */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
-}
-
-/* 2. Spezifische Form für User-Bubble wiederherstellen (damit die Ecke rechts ist) */
-.message-row.user .message, 
-div[data-testid="user"] {
-    border-radius: 20px 20px 3px 20px !important;
-}
-
-/* 3. Ein letzter Versuch für den weißen Rahmen (Transparenz auf Absatz-Ebene) */
-.message-row .message p {
-    padding: 0 !important;
-    margin: 0 !important;
-    background-color: transparent !important;
-}
-
-/* --- FIX: PADDING DER BUBBLES --- */
-.message-row.bot .message, 
-.message-row.user .message {
-    padding: 25px 35px !important; /* Hier deutlich erhöht */
-    min-height: 60px !important;
-}
-
-/* Sicherstellen, dass der Text innen nicht den Rand berührt */
-.message-row .message .prose {
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
 /* --- FIX: INPUT FELD DESIGN (BLUE GLOW) --- */
 
 /* Den Standard-Hintergrund des Footers entfernen */
@@ -466,16 +422,9 @@ footer textarea::placeholder {
     opacity: 0.7;
 }
 
-/* Hover & Focus Effekt (Das Leuchten beim Reinklicken) */
-footer textarea:focus {
-    border-color: rgba(176, 218, 255, 0.9) !important;
-    box-shadow: 
-        0 0 20px rgba(176, 218, 255, 0.5),
-        inset 0 0 10px rgba(176, 218, 255, 0.2) !important;
-    transform: translateY(-1px);
-}
 
-/* Den Senden-Button anpassen (falls sichtbar) */
+
+/* Den Senden-Button anpassen */
 footer button.submit-button,
 footer button#component-submit {
     background: rgba(176, 218, 255, 0.2) !important;
@@ -491,7 +440,7 @@ footer button#component-submit {
     color: #B0DAFF;
 }
 
-/*auch abesndefeld*/
+/*auch absendefeld*/
 .lg.svelte-cmf5ev {
     border-radius: 40px;
     border: 3px solid #B0DAFF;
@@ -508,7 +457,6 @@ footer button#component-submit {
     font-size: 13px;
     border-radius: 40px;
 }
-
 
 /*inputfeld und Absendefeld hintergrund*/
 .svelte-sa48pu {

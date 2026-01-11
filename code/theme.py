@@ -3,6 +3,11 @@ from gradio.themes.utils import colors, fonts, sizes
 
 
 class CustomTheme(Base):
+    """
+    Definiert das Basis-Theme für Gradio.
+    Wir setzen hier viele Werte auf 'transparent', damit wir sie
+    später im CSS flexibel überschreiben können (z.B. Hintergrundbild).
+    """
     def __init__(self):
         super().__init__(
             font=(fonts.GoogleFont("Inter"), "sans-serif"),

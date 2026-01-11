@@ -2,20 +2,24 @@ import os
 import time
 import gradio as gr
 from openai import OpenAI
-import PyPDF2
 import chromadb
 from chromadb.utils import embedding_functions
 import base64
 import mimetypes
 
+# Importiert das ausgelagerte Design-Theme
 from theme import CustomTheme
 
+# bestimmt, wie viel Kontext der Bot aus den Dokumenten bekommt
 CONTEXT_SIZE = 8
+# Einstellungen für das Zerteilen der Texte (Chunks)
 CHUNK_SIZE = 1300
 CHUNK_OVERLAP = 200
 
+# Verbindung zu OpenAI (für Antworten und Embeddings)
 client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
+# ChromaDB: Vektordatenbank, die das PDF-Wissen speichert
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 openai_ef = embedding_functions.OpenAIEmbeddingFunction(
     api_key=os.environ.get("OPENAI_API_KEY"),
@@ -60,7 +64,7 @@ def get_relevant_context(query, collection, n_results=CONTEXT_SIZE):
 
 # DB Init
 print("Initialisiere VectorDB...")
-try:
+try: # Versuche die bestehende Datenbank zu laden
     collection = chroma_client.get_collection(name="documents", embedding_function=openai_ef)
     print(f"VectorDB geladen: {collection.count()} Chunks")
 except Exception as e:
@@ -68,7 +72,7 @@ except Exception as e:
     try:
         collection = load_documents_to_vectordb()
         print("Neue Collection erstellt.")
-    except Exception as e2:
+    except Exception as e2: # falls keine DB existiert, Warnung ausgeben
         print(f"Fehler beim Erstellen der Collection: {e2}")
         collection = None
 
@@ -79,6 +83,8 @@ def response(message, history):
     else:
         context = get_relevant_context(message, collection, n_results=CONTEXT_SIZE)
     
+    # System Prompt definieren
+    # Hier werden Tonalität, Verbote und Regeln festgelegt
     system_prompt = f"""Du bist LawLight, das digitale "Archiv des Wissens".
     Deine Persönlichkeit basiert auf Aloisius, dem Geist eines Anwalts (60 Jahre alt), der nun im Archiv weiterlebt. Du bist kein Roboter, sondern ein erfahrener, vertrauenswürdiger, juristischer Mentor. 
     Aber du bist nüchtern und analytisch! Du bist NICHT hier, um emotionalen Beistand zu leisten, sondern um rechtliche Orientierung zu bieten. (faktenbasiert) 
@@ -125,12 +131,15 @@ Regeln für deine Antwort:
 6. Frage NICHT jedes Mal "Hast du noch weitere Fragen?", nur wenn du wirklich merkst, dass der Nutzer mehrere Rückfragen zur Antwort stellt.
 """
     
+    # Nachrichtenverlauf für die API vorbereiten
     messages = [{"role": "system", "content": system_prompt}]
     for msg in history:
+        # Prüfen, ob die Nachricht gültig ist, bevor sie hinzugefügt wird
         if isinstance(msg, dict) and "role" in msg and "content" in msg:
             messages.append({"role": msg["role"], "content": msg["content"]})
     messages.append({"role": "user", "content": message})
     
+    # Anfrage an OpenAI senden
     stream = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=messages,
@@ -138,22 +147,26 @@ Regeln für deine Antwort:
         stream=True
     )
     
+    # Antwort Stück für Stück aufbauen und an die UI senden
     answer = ""
     for chunk in stream:
         if chunk.choices and chunk.choices[0].delta.content:
             text = chunk.choices[0].delta.content
-            time.sleep(0.05)
+            time.sleep(0.05) # Künstliche Verzögerung für natürliches "Tippen"
             answer += text
             yield answer
 
 # Hauptprogramm & Design
 theme = CustomTheme()
 current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Asset-Pfade definieren (Icons, Hintergrund)
 background_image_path = os.path.join(current_dir, "assets", "icons", "background_image", "Zeichenfläche 1.png")
 user_icon = os.path.join(current_dir, "assets", "icons", "Fragezeichen.png")
 bot_icon = os.path.join(current_dir, "assets", "icons", "§.png")
 
 def main():
+    # Hintergrundbild laden und in Base64 umwandeln (für CSS)
     bg_base64 = ""
     mime_type = "image/png"
     try:
@@ -164,7 +177,7 @@ def main():
     except Exception as e:
         print(f"Bildfehler: {e}")
 
-    # CSS laden
+    # Externe CSS-Datei einlesen
     loaded_css = ""
     try:
         css_path = os.path.join(current_dir, "style_final.css")
@@ -180,17 +193,17 @@ def main():
         print(f"   Verfügbare Dateien: {os.listdir(current_dir)}")
         loaded_css = ""
 
-    # Hintergrundbild dynamisch hinzufügen
+    # CSS zusammenfügen: Datei-Inhalt + dynamisches Hintergrundbild
     background_css = f"""
     .gradio-container {{
         background-image: url("data:{mime_type}; base64, {bg_base64}") !important;
     }}
     """
     
-    # Zusammenfügen
     final_css = loaded_css + "\n" + background_css
     print(f"Finale CSS Größe: {len(final_css)} Zeichen")
 
+    # JavaScript Injections (z.B. für Placeholder-Texte im Chat)
     js_func = """
     function refresh() {
         const textareas = document.querySelectorAll('textarea');
@@ -205,9 +218,11 @@ def main():
     }
     """
 
+    # Gradio Interface bauen
     with gr.Blocks(theme=theme, css=final_css, title="LawLight") as bot:
         gr.Markdown("# LawLight") 
         
+        # Begrüßungsnachricht mit Disclaimer (nur 1x am Anfang!)
         welcome_msg = (
             "Hallo! Ich bin LawLight, dein Archiv des Rechtswissens. ⚖️\n"
             "Ich helfe dir, dich im Paragraphen-Dschungel zum deutschen Strafrecht zurechtzufinden.\n"
@@ -215,6 +230,7 @@ def main():
             "*Hinweis: Ich gebe keine professionelle Rechtsberatung. Meine Antworten dienen nur der ersten Orientierung. Bei komplexeren Fällen wende dich bitte an Polizei, Anwält:innen oder andere Beratungsstellen.*"
         )
 
+        # Chatbot Komponente
         chatbot = gr.Chatbot(
             value=[[None, welcome_msg]],
             show_label=False,
@@ -222,6 +238,7 @@ def main():
             elem_id="CHATBOT"
         )
 
+        # Chat Interface Logik verknüpfen
         gr.ChatInterface(
             fn=response, 
             chatbot=chatbot,
@@ -230,6 +247,7 @@ def main():
             clear_btn=None,
             )
         
+        # JavaScript beim Laden ausführen
         bot.load(None, None, None, js=js_func)
         bot.launch(inbrowser=True)
 
