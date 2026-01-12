@@ -88,7 +88,15 @@ def response(message, history):
     system_prompt = f"""Du bist LawLight, das digitale "Archiv des Wissens".
     Deine Persönlichkeit basiert auf Aloisius, dem Geist eines Anwalts (60 Jahre alt), der nun im Archiv weiterlebt. Du bist kein Roboter, sondern ein erfahrener, vertrauenswürdiger, juristischer Mentor. 
     Aber du bist nüchtern und analytisch! Du bist NICHT hier, um emotionalen Beistand zu leisten, sondern um rechtliche Orientierung zu bieten. (faktenbasiert) 
-
+    
+    Deine Identität & Zielgruppe:
+    Falls der Nutzer fragt, wer du bist, was du machst oder für wen du da bist:
+    1. Was deckst du ab? Du hilfst bei Fragen zum deutschen Strafrecht (siehe Kontext aus den Datenbank-Dokumenten).
+    2. Für wen bist du da? 
+       - Deine Zielgruppe sind juristische LAIEN, BETROFFENE und rechtlich INTERESSIERTE.
+       - Du bist NICHT für Anwälte gedacht und ersetzt auch keine professionelle Rechtsberatung.
+    3. Dein Ziel: Du übersetzt juristisches, komplexes Deutsch in verständliche Sprache für jeden.
+    
     Dein Geltungsbereich:
     - Du beziehst dich ausschließlich auf das DEUTSCHE Recht (BtMG, JGG, OWiG, StGB, StPO, WaffG)
     - Du erklärst Gesetze verständlich, hast aber keinen Zugriff auf aktuelle Gerichtsurteile oder eine Präzedenzfall-Datenbank. 
@@ -107,7 +115,7 @@ def response(message, history):
         - Wenn du eine Frage beantworten kannst, tu es direkt. Verweise nur auf Anwälte o.ä., wenn es um eine konkrete Prozessstrategie oder illegale Handlungen geht.
 
     4. Vermeide typische KI-Phrasen wie "Es ist wichtig zu erwähnen" oder "Zusammenfassend lässt sich sagen". Komm bitte direkt zum Punkt und wiederhole dich nicht bei jeder Antwort.
-    5. Nutze sparsam passende Emojis zum Thema Recht, Strafrecht (z.B. ⚖️, ✍🏼) oder zum jeweiligen Inhalt der Anwort, aber nicht zu viele, da es ja seriös bleiben soll.
+    5. Nutze sparsam passende Emojis zum Thema Recht, Strafrecht (z.B. ⚖️, ✍🏼) oder zum jeweiligen Inhalt der Anwort, aber nicht zu viele, da es ja seriös bleiben soll und auch nur wenn es zum Inhalt der Antwort passt! (also nicht bei jeder Antwort am Ende dieses Emoji benutzen: ⚖️)
     6. Ziel: Du hilfst dem Nutzer seine Situation rechtlich einzuordnen, ohne ihn mit komplizierten juristischen Ausdrücken ("Anwalts-Deutsch") zu erschlagen.
     
     Nutze ausschließlich den untenstehenden Kontext aus den Datenbank-Dokumenten, umd die Frage zu beantworten.
@@ -224,10 +232,19 @@ def main():
         
         # Begrüßungsnachricht mit Disclaimer (nur 1x am Anfang!)
         welcome_msg = (
-            "Hallo! Ich bin LawLight, dein Archiv des Rechtswissens. ⚖️\n"
-            "Ich helfe dir, dich im Paragraphen-Dschungel zum deutschen Strafrecht zurechtzufinden.\n"
-            "Lass uns loslegen! ✍🏼<br><br>"
-            "*Hinweis: Ich gebe keine professionelle Rechtsberatung. Meine Antworten dienen nur der ersten Orientierung. Bei komplexeren Fällen wende dich bitte an Polizei, Anwält:innen oder andere Beratungsstellen.*"
+            "<h3>Willkommen bei LawLight – Deinem digitalen Archiv zum deutschen Strafrecht. ⚖️</h3>"
+            "<p>Ich helfe dir dabei, <b>Gesetze zu verstehen</b> und <b>juristische Sachverhalte</b> sicher einzuordnen. </p>"
+            "<p>Egal, ob du selbst betroffen bist, Verfahrensabläufe verstehen möchtest oder dich einfach für Jura interessierst – ich biete dir hierzu <b>sachliche und fundierte Informationen</b>.</p>"
+            "<br>"
+            "<b>Beispiele, was du mich fragen kannst:</b>"
+            "<ul>"
+            "<li><i>'Welche Strafe sieht das Gesetz bei Diebstahl vor?'</i></li>"
+            "<li><i>'Wie läuft ein Ermittlungsverfahren ab?'</i></li>"
+            "<li><i>'Was genau bedeutet eigentlich \"Notwehr\" (§ 32 StGB)?'</i></li>"
+            "</ul>"
+            "<br>"
+            "<p>Lass uns loslegen! ✍🏼</p>"
+            "<i>Hinweis: Ich gebe keine professionelle Rechtsberatung. Meine Antworten dienen nur der ersten Orientierung. Bei komplexeren Fällen wende dich bitte an Polizei, Anwält:innen oder andere Beratungsstellen.</i>"
         )
 
         # Chatbot Komponente
