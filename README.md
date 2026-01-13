@@ -69,7 +69,7 @@ API für gesetztestexte
 https://de.openlegaldata.io/
 
 Figma Arbeitsboards mit Hintergrundinfos und Überlegungen
-Accessability Check: https://www.figma.com/board/hqgdds3ckVgT2xl39lsts3/Accessibility-Check-LawLight?t=cn7j26W5EhJjmU3E-6
+Accessibility Check: https://www.figma.com/board/hqgdds3ckVgT2xl39lsts3/Accessibility-Check-LawLight?t=cn7j26W5EhJjmU3E-6
 
 Usability Testing: https://www.figma.com/board/84MICquGFk7uriuhJUOtNo/Usability-Testing?t=cn7j26W5EhJjmU3E-6
 
