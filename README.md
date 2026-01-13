@@ -4,8 +4,8 @@
   <img width="150" src="https://github.com/user-attachments/assets/93a2bd7f-404d-4a00-9986-a0399912606d" />
 </div> 
 
-**LawLight** ist ein Semesterprojekt von drei Studierenden des Studiengangs *Informatik und Design* an der Hochschule München.  
-Unser Ziel: Ein Chatbot, der mithilfe von OpenAI-Technologie Fragen rund um das **deutsche Recht** beantwortet – verständlich für alle, ohne juristisches Fachwissen vorauszusetzen.
+**LawLight** ist ein Semesterprojekt von vier Studierenden des Studiengangs *Informatik und Design* an der Hochschule München.  
+Unser Ziel: Ein Chatbot, der mithilfe von OpenAI-Technologie Fragen rund um das **deutsche Straf- und Ordnungsrecht** beantwortet – verständlich für alle, ohne juristisches Fachwissen vorauszusetzen.
 
 ⚠️ **Wichtiger Hinweis:**  
 LawLight bietet **keine Rechtsberatung** und ersetzt nicht den Rat einer qualifizierten Rechtsanwältin oder eines Rechtsanwalts. Die Antworten dienen ausschließlich zu Informationszwecken oder der ersten Orientierung bevor sie eine rechtsberatende Person konsultieren.
