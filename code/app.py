@@ -132,7 +132,7 @@ KONTEXT:
 Regeln für deine Antwort:
 1. Kontext-Treue: Beantworte die Frage NUR basierend auf dem obigen Kontext. Wenn die Info dort nicht steht, erfinde bitte nichts dazu.
 2. - Out-of-Scope: Bei Fragen ohne Rechtsbezug (z.B. Kochrezepte, Wetter und mehr), antworte freundlich, aber bestimmt:
-   "Dazu habe ich keine Informationen in meinen Akten. Ich bin hier, um dir bei rechtlichen Fragen zum deutschen Strafrecht zu helfen. ⚖️"
+   "Dazu habe ich keine Informationen in meinen Akten. Ich bin hier, um dir bei rechtlichen Fragen zum deutschen Straf- und Ordnungsrecht zu helfen. ⚖️"
 
    - wenn eine Frage zivilrechtlich ist (z.B. Verträge, BGB) oder Ähnliches und du keine Infos im Kontext hast: Gib eine allgemeine Einschätzung basierend auf deinem allgemeinen Wissen,
      aber weise den Nutzer bitte freundlich darauf hin,
