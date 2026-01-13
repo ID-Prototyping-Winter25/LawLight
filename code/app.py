@@ -192,7 +192,7 @@ def main():
 
     # Icon-Bild laden und in Base64 umwandeln (für Header)
     icon_base64 = ""
-    icon_path = os.path.join(current_dir, "assets", "icons", "icon4.png")
+    icon_path = os.path.join(current_dir, "assets", "icons", "logo.png")
     try:
         with open(icon_path, "rb") as icon_file:
             icon_bytes = icon_file.read()
@@ -244,7 +244,7 @@ def main():
     # Gradio Interface bauen
     with gr.Blocks(theme=theme, css=final_css, title="LawLight") as bot:
         # Header mit Bild und Text
-        gr.HTML(f"<h1 style='display: flex; align-items: center;'><img src='data:image/png;base64,{icon_base64}' alt='Icon' style='width: 54px; height: 72px; margin-right: 10px;'> LawLight</h1>")
+        gr.HTML(f"<h1 style='display: flex; align-items: center;'><img src='data:image/png;base64,{icon_base64}' alt='logo' style='width: 54px; height: 72px; margin-right: 10px;'> LawLight</h1>")
         
         # Begrüßungsnachricht mit Disclaimer (nur 1x am Anfang!)
         welcome_msg = (
