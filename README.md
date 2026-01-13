@@ -14,6 +14,9 @@ LawLight bietet **keine Rechtsberatung** und ersetzt nicht den Rat einer qualifi
 
 ## Probiere LawLight aus
 https://neele2-lawlight.hf.space
+<div align="center">
+  <img width="150" src="https://github.com/user-attachments/assets/f7627c65-ed52-498a-89b0-7c3b33e62790" />
+</div> 
 
 ***
 
