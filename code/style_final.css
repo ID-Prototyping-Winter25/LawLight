@@ -1,8 +1,7 @@
  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Inter:wght@400;500&display=swap');
 
-/* GLOBALE EINSTELLUNGEN & HINTERGRUND 
+/* Globale Einstellungen & Hintergrund
 Setzen der Schriftfarbe und Transparenz für den gesamten Body */
-
  :root, .dark, body, .gradio-container {
     --body-text-color: #1F232A !important;
     --body-background-fill: transparent !important;
@@ -30,7 +29,8 @@ Setzen der Schriftfarbe und Transparenz für den gesamten Body */
     opacity: 1 !important;
     background: transparent !important;
 }
-/* CHAT BEREICH & ANIMATION */
+
+/* Chat Bereich & Animation */
 #CHATBOT {
     background: transparent !important;
     height: 80vh !important;
@@ -68,7 +68,7 @@ Setzen der Schriftfarbe und Transparenz für den gesamten Body */
 }
 
 
-/* BUBBLES (NACHRICHTEN) DESIGN 
+/* Bubbles (Nachrichten) Design
 Bot Bubble */
 .message-row.bot .message.bot,
 .message-row:has(.bot) .message,
@@ -123,9 +123,6 @@ Bot Bubble */
     100% { box-shadow: 0 8px 32px rgba(251, 233, 159, 0.3), 0 4px 16px rgba(0, 0, 0, 0.1); }
 }
 
-/* --- FIX: ULTRA-AGGRESSIVER HINTERGRUND-ENTFERNER (INKL. HOVER) --- */
-/* Wir zwingen JEDES Element innerhalb der Chat-Bubbles auf transparent, auch beim Drübermausen */
-
 /* 1. Basis-Zustand für alles in den Bubbles */
 .message-row .message *,
 div[data-testid="bot"] *,
@@ -137,7 +134,7 @@ div[data-testid="user"] *,
     border: none !important;
 }
 
-/* WICHTIG: HOVER und FOKUS Zustände entfernen */
+/* Hover und Fokus Zustände entfernen */
 /* Das verhindert, dass es weiß wird, wenn man mit der Maus draufgeht */
 .message-row .message *:hover,
 .message-row .message *:focus,
@@ -150,7 +147,7 @@ div[data-testid="user"] *:hover,
      background: transparent !important;
 }
 
-/* 3. Sicherstellen, dass keine Ränder entstehen */
+/* Sicherstellen, dass keine Ränder entstehen */
 .message-row .message p, 
 .message-row .message div {
     margin: 0 !important;
@@ -169,7 +166,7 @@ div[data-testid="user"] *:hover,
 }
 
 
-/* ICONS */
+/* Icons*/
 .avatar-container {
     align-self: flex-start !important;
     margin-top: 0px !important;
@@ -248,98 +245,6 @@ background: linear-gradient(135deg,
 }
 
 
-/* TEXTFELD & FOOTER */
-/* Input Bereich - Äußerer Container */
-footer, .footer, .form {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    margin-top: 0 !important;
-}
-
-/* Entferne border-radius vom äußeren Block-Container */
-div.block.svelte-1plpy97.padded,
-.block.padded,
-footer .block,
-.form .block {
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-}
-
-/* Input Container mit blauem Hintergrund und hellblauer Border */
-.input-container {
-    background: linear-gradient(135deg, 
-        rgba(46, 93, 135, 0.95) 0%, 
-        rgba(46, 93, 135, 0.85) 100%) !important;
-    border: 3px #B0DAFF!important;
-    border-radius: 40px !important;
-    padding: 8px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    overflow: hidden !important;
-    backdrop-filter: blur(12px) !important;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
-
-/* Textfeld */
-.input-container textarea {
-    flex: 1 !important;
-    background: transparent !important;
-    border: none !important;
-    resize: none !important;
-    padding: 10px 12px !important;
-    color: #E8F4FF !important;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 14px !important;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(176, 218, 255, 0.3) transparent;
-    outline: none !important;
-    transition: color 0.3s ease;
-}
-
-/* Focus-Effekt */
-.input-container:focus-within {
-    box-shadow: #FBE99F;
-    border-color: #B0DAFF !important;
-    transform: translateY(-2px);
-}
-
-
-/* Placeholder */
-.input-container textarea::placeholder {
-    color: #B0DAFF !important;
-    font-style: italic;
-    transition: opacity 0.3s ease;
-}
-
-.input-container:focus-within textarea::placeholder {
-    opacity: 0.5;
-}
-
-/* Senden Button */
-.input-container button {
-    background: #2E5D87 !important;
-    border-radius: 50% !important;
-    padding: 10px 12px !important;
-    color: #B0DAFF !important;
-    cursor: pointer !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    backdrop-filter: blur(8px) !important;
-}
-
-
-.input-container button:active {
-    transform: scale(0.98);
-    box-shadow: 
-        0 2px 8px rgba(176, 218, 255, 0.4),
-        inset 0 1px 2px rgba(0, 0, 0, 0.2) !important;
-}
-
 /* Absolute positioned elements */
 .gradio-container .absolute {
     background: linear-gradient(135deg, 
@@ -371,29 +276,6 @@ footer .block,
     100% { opacity: 0.2; }
 }
 
-/* Loading Animation für neue Messages */
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes slideInRight {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
 .message-row.bot .message {
     animation: slideInLeft 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -402,8 +284,7 @@ footer .block,
     animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --- FIX: INPUT FELD DESIGN (BLUE GLOW) --- */
-
+/* Fix: Input Feld Design --- */
 /* Den Standard-Hintergrund des Footers entfernen */
 footer, .gradio-container footer {
     background-color: #1F232A !important;
