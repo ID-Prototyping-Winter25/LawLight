@@ -52,7 +52,6 @@ https://neele2-lawlight.hf.space
     Danach kannst du den Chatbot lokal nutzen.
 
 ## Weitere Infos
-Dokumentation
 Detailierte Einblicke in unseren Entwicklungsprozess findest du in unserem Projekt-Wiki:
 https://github.com/ID-Prototyping-Winter25/LawLight/wiki
 
