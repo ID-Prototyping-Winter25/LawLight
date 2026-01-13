@@ -190,6 +190,16 @@ def main():
     except Exception as e:
         print(f"Bildfehler: {e}")
 
+    # Icon-Bild laden und in Base64 umwandeln (für Header)
+    icon_base64 = ""
+    icon_path = os.path.join(current_dir, "assets", "icons", "icon4.png")
+    try:
+        with open(icon_path, "rb") as icon_file:
+            icon_bytes = icon_file.read()
+        icon_base64 = base64.b64encode(icon_bytes).decode("utf-8")
+    except Exception as e:
+        print(f"Icon-Bildfehler: {e}")
+
     # Externe CSS-Datei einlesen
     loaded_css = ""
     try:
@@ -233,7 +243,8 @@ def main():
 
     # Gradio Interface bauen
     with gr.Blocks(theme=theme, css=final_css, title="LawLight") as bot:
-        gr.Markdown("# LawLight") 
+        # Header mit Bild und Text
+        gr.HTML(f"<h1 style='display: flex; align-items: center;'><img src='data:image/png;base64,{icon_base64}' alt='Icon' style='width: 54px; height: 72px; margin-right: 10px;'> LawLight</h1>")
         
         # Begrüßungsnachricht mit Disclaimer (nur 1x am Anfang!)
         welcome_msg = (
