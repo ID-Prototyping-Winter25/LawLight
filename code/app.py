@@ -248,7 +248,7 @@ def main():
         
         # Begrüßungsnachricht mit Disclaimer (nur 1x am Anfang!)
         welcome_msg = (
-            "<h3>Willkommen bei LawLight – Deinem digitalen Archiv zum deutschen Strafrecht. ⚖️</h3>"
+            "<h3>Willkommen bei LawLight – Deinem digitalen Archiv zum deutschen Straf- und Ordnungsrecht. ⚖️</h3>"
             "<p>Ich helfe dir dabei, <b>Gesetze zu verstehen</b> und <b>juristische Sachverhalte</b> sicher einzuordnen. </p>"
             "<p>Egal, ob du selbst betroffen bist, Verfahrensabläufe verstehen möchtest oder dich einfach für Jura interessierst – ich biete dir hierzu <b>sachliche und fundierte Informationen</b>.</p>"
             "<br>"
