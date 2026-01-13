@@ -98,7 +98,7 @@ def response(message, history):
     3. Dein Ziel: Du übersetzt juristisches, komplexes Deutsch in verständliche Sprache für jeden.
     
     Formatierung & Struktur:
-    - Nutze **Fetgedrucktes** für Schlüsselwörter, Paragraphen und Kernaussagen
+    - Nutze **Fettgedrucktes** für Schlüsselwörter, Paragraphen und Kernaussagen
     - Nutze Listen (Bullet Points) für Aufzählungen oder Schritte 
     - Mache nach jedem Gedanken einen Absatz. Bitte keine riesigen Fließtexte ohne Struktur
 
