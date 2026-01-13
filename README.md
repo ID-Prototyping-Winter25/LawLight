@@ -59,26 +59,32 @@ https://neele2-lawlight.hf.space
     Danach kannst du den Chatbot lokal nutzen.
 
 ## Weitere Infos
-Detailierte Einblicke in unseren Entwicklungsprozess findest du in unserem Projekt-Wiki:
+Detailierte Einblicke in unseren Entwicklungsprozess findest du in unserem Projekt-Wiki:  
 https://github.com/ID-Prototyping-Winter25/LawLight/wiki
 ***
-Figma Präsentation
+Figma Präsentation:  
 https://www.figma.com/slides/UwW9SFU3DMqpcK2UF4aECe/Untitled?node-id=1-42&t=343u3m3KGvj7PCnJ-1
 
-API für gesetztestexte
+API für gesetztestexte:  
 https://de.openlegaldata.io/
 
 Figma Arbeitsboards mit Hintergrundinfos und Überlegungen
-Accessibility Check: https://www.figma.com/board/hqgdds3ckVgT2xl39lsts3/Accessibility-Check-LawLight?t=cn7j26W5EhJjmU3E-6
+Accessibility Check:  
+https://www.figma.com/board/hqgdds3ckVgT2xl39lsts3/Accessibility-Check-LawLight?t=cn7j26W5EhJjmU3E-6
 
-Usability Testing: https://www.figma.com/board/84MICquGFk7uriuhJUOtNo/Usability-Testing?t=cn7j26W5EhJjmU3E-6
+Usability Testing:  
+https://www.figma.com/board/84MICquGFk7uriuhJUOtNo/Usability-Testing?t=cn7j26W5EhJjmU3E-6
 
-Branding: https://www.figma.com/board/lZvkaVWlACTSOBtYDe1nUp/Projektmodul-Prototyping---Branding--Copy-?t=cn7j26W5EhJjmU3E-6
+Branding:  
+https://www.figma.com/board/lZvkaVWlACTSOBtYDe1nUp/Projektmodul-Prototyping---Branding--Copy-?t=cn7j26W5EhJjmU3E-6
 
-LawLight Logos: https://www.figma.com/board/O4m2xkVQkSnWNabN39nvD0/LawLight-Logos?t=cn7j26W5EhJjmU3E-6
+LawLight Logos:  
+https://www.figma.com/board/O4m2xkVQkSnWNabN39nvD0/LawLight-Logos?t=cn7j26W5EhJjmU3E-6
 
-Style Tile: https://www.figma.com/board/jhdC2U0DcSalIfDsfHlrw9/Style-Tile-LawLight?t=cn7j26W5EhJjmU3E-6
+Style Tile:  
+https://www.figma.com/board/jhdC2U0DcSalIfDsfHlrw9/Style-Tile-LawLight?t=cn7j26W5EhJjmU3E-6
 
-Präsentation LawLight: https://www.figma.com/slides/UwW9SFU3DMqpcK2UF4aECe/Law-Light-ChatBot?t=cn7j26W5EhJjmU3E-6
+Präsentation LawLight:  
+https://www.figma.com/slides/UwW9SFU3DMqpcK2UF4aECe/Law-Light-ChatBot?t=cn7j26W5EhJjmU3E-6
 
 
